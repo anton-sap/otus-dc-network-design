@@ -35,7 +35,7 @@ Loopback интерфейсы для нужд OSPF и VTEP
 ## Настройка OSPF
 Настройка OSPF для устройств (внезапно :) ) реализована через Ansible. Идея заимствована из книги "Network Automation Cookbook" (Karim Okasha) и репозитория на Github “https://github.com/PacktPublishing/Network-Automation-Cookbook/tree/master/ch4_arista.”
 
-**_Так как copy-paste сбивает синтаксис, плэйбуки будут загружены в отдельный репо https://github.com/anton-sap/HW-2_Ansible**_ 
+**Так как copy-paste сбивает синтаксис, плэйбуки будут загружены в отдельный репо https://github.com/anton-sap/HW-2_Ansible** 
 
 Файл инвентаря inventory представлен в следующем виде
 
