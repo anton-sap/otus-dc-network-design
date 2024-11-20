@@ -10,7 +10,8 @@
 
 ## Схема сети
 Кабельный журнал и IP-plan
-![](images/HW-2-map.png)
+![Схема](images/HW-2-map.png)
+![Топология EVE-NG](images/eve-topology.png)
 Point-toPoint соединения
 
 | **Соединение**                                           | **Подсеть**    | **Устройство A**                     | **Интерфейс** | **IP A**   | **Устройство B**                            | **Интерфейс** | **IP B**   |
@@ -242,3 +243,4 @@ all.yml
               redistribute:
               - routes: "connected"
               router_id: "{{ global.ospf_router_id[inventory_hostname] }}"
+
