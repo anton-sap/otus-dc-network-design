@@ -245,6 +245,481 @@ all.yml
               router_id: "{{ global.ospf_router_id[inventory_hostname] }}"
 
 ## Проверка корректности маршрутов и коннективности
+### Конфигурация устройств после вмешательства Ansible
+
+<details><summary>no-osl-dc1-f1-r01k01-spn01</summary>
+
+    no-osl-dc1-f1-r01k01-spn01#sh run
+    ! Command: show running-config
+    ! device: no-osl-dc1-f1-r01k01-spn01 (vEOS-lab, EOS-4.29.2F)
+    !
+    ! boot system flash:/vEOS-lab.swi
+    !
+    no aaa root
+    !
+    username admin role network-admin secret sha512 $6$kizFMUd0ozToDLhI$rkCiEs5iRPHbHuZdcy7RQahkhrOtpuBgsA0tr4/ZdfwXqf6/.gwCHsalOUGR3iLs2uSaRNwnfb9T.epzm8QaO.
+    username ansible privilege 15 secret sha512 $6$41a1Ynes/PcpWL9f$BiEqleayELgJa95rqf5yWTsgmrK99uzOcn3SRHGasENBWf0ZHwJ1S2Hhj8PdjzkVrMOr0WF9RDohwGQJKjdx51
+    !
+    transceiver qsfp default-mode 4x10G
+    !
+    service routing protocols model ribd
+    !
+    hostname no-osl-dc1-f1-r01k01-spn01
+    !
+    spanning-tree mode mstp
+    !
+    vrf instance mgmt
+    !
+    management api http-commands
+       no shutdown
+       !
+       vrf default
+          no shutdown
+       !
+       vrf mgmt
+          no shutdown
+    !
+    aaa authorization exec default local
+    !
+    interface Ethernet1
+       no switchport
+       ip address 10.16.2.0/31
+    !
+    interface Ethernet2
+       no switchport
+       ip address 10.16.2.2/31
+    !
+    interface Ethernet3
+       no switchport
+       ip address 10.16.2.4/31
+    !
+    interface Ethernet4
+    !
+    interface Ethernet5
+    !
+    interface Ethernet6
+    !
+    interface Ethernet7
+    !
+    interface Ethernet8
+    !
+    interface Ethernet9
+    !
+    interface Ethernet10
+    !
+    interface Ethernet11
+    !
+    interface Ethernet12
+    !
+    interface Ethernet13
+    !
+    interface Ethernet14
+    !
+    interface Ethernet15
+    !
+    interface Ethernet16
+    !
+    interface Loopback0
+       description OSPF
+       ip address 10.16.0.1/32
+    !
+    interface Management1
+       vrf mgmt
+       ip address 172.16.108.101/24
+    !
+    ip routing
+    no ip routing vrf mgmt
+    !
+    ip route vrf mgmt 0.0.0.0/0 172.16.108.1
+    !
+    router ospf 1
+       router-id 10.16.0.1
+       redistribute connected
+       network 10.16.0.0/24 area 0.0.0.0
+       network 10.16.1.0/24 area 0.0.0.0
+       network 10.16.2.0/23 area 0.0.0.0
+       network 10.16.4.0/24 area 0.0.0.0
+       max-lsa 8000 40 ignore-time 6 ignore-count 3 reset-time 20
+       adjacency exchange-start threshold 20045623
+    !
+    end
+
+</details>
+
+<details><summary>no-osl-dc1-f1-r02k01-spn01</summary>
+
+    no-osl-dc1-f1-r02k01-spn01#sh run
+    ! Command: show running-config
+    ! device: no-osl-dc1-f1-r02k01-spn01 (vEOS-lab, EOS-4.29.2F)
+    !
+    ! boot system flash:/vEOS-lab.swi
+    !
+    no aaa root
+    !
+    username admin role network-admin secret sha512 $6$5pwAGitA.Q5BLgTA$SU1JIsiRGsfOWeXBO6acFvwJg48rPtst87ovCi83OhFCXy0go4OcG5X8e70B2Y/pAulOzfiOtfqm.0lG1OCNk/
+    username ansible privilege 15 secret sha512 $6$hG/d9eIn.MhjvEVB$ZcK7QIef1jf2aX7SFqUz1Yf5cRNmdfpoD6N/LieIXd5cKkTNPPbO3QxUe8N3dOctXvcyz8vJBaJ6rf1wz35W31
+    !
+    transceiver qsfp default-mode 4x10G
+    !
+    service routing protocols model ribd
+    !
+    hostname no-osl-dc1-f1-r02k01-spn01
+    !
+    spanning-tree mode mstp
+    !
+    vrf instance mgmt
+    !
+    management api http-commands
+    no shutdown
+    !
+    vrf default
+    no shutdown
+    !
+    vrf mgmt
+    no shutdown
+    !
+    aaa authorization exec default local
+    !
+    interface Ethernet1
+    no switchport
+    ip address 10.16.2.6/31
+    !
+    interface Ethernet2
+    no switchport
+    ip address 10.16.2.8/31
+    !
+    interface Ethernet3
+    no switchport
+    ip address 10.16.2.10/31
+    !
+    interface Ethernet4
+    shutdown
+    !
+    interface Ethernet5
+    shutdown
+    !
+    interface Ethernet6
+    shutdown
+    !
+    interface Ethernet7
+    shutdown
+    !
+    interface Ethernet8
+    shutdown
+    !
+    interface Ethernet9
+    shutdown
+    !
+    interface Ethernet10
+    shutdown
+    !
+    interface Ethernet11
+    shutdown
+    !
+    interface Ethernet12
+    shutdown
+    !
+    interface Ethernet13
+    shutdown
+    !
+    interface Ethernet14
+    shutdown
+    !
+    interface Ethernet15
+    shutdown
+    !
+    interface Ethernet16
+    shutdown
+    !
+    interface Loopback0
+    description OSPF
+    ip address 10.16.0.2/32
+    !
+    interface Management1
+    vrf mgmt
+    ip address 172.16.108.102/24
+    !
+    ip routing
+    no ip routing vrf mgmt
+    !
+    ip route 0.0.0.0/0 172.16.108.1
+    ip route vrf mgmt 0.0.0.0/0 172.16.108.1
+    !
+    router ospf 1
+    router-id 10.16.0.2
+    redistribute connected
+    network 10.16.0.0/24 area 0.0.0.0
+    network 10.16.1.0/24 area 0.0.0.0
+    network 10.16.2.0/23 area 0.0.0.0
+    network 10.16.4.0/24 area 0.0.0.0
+    max-lsa 8000 40 ignore-time 6 ignore-count 3 reset-time 20
+    adjacency exchange-start threshold 20045623
+    !
+    end
+
+</details>
+
+<details><summary>no-osl-dc1-f1-r03k01-lf01</summary>
+
+    no-osl-dc1-f1-r03k01-lf01#sh run
+    ! Command: show running-config
+    ! device: no-osl-dc1-f1-r03k01-lf01 (vEOS-lab, EOS-4.29.2F)
+    !
+    ! boot system flash:/vEOS-lab.swi
+    !
+    no aaa root
+    !
+    username admin role network-admin secret sha512 $6$L4cggSE8nbcLiZSE$VIREQAhl7zGS2cKLhBkYwreqCotoXzrkAG/wbl/AU6EBgytPB9PmmxmLS3aGHzSozcSFAPZjcq2oG3YtSG1Je/
+    username ansible privilege 15 secret sha512 $6$ee5C4A.74lEWfutr$B8SVeZIgPIPfmV1V7mGBdkMM1m9VRwcPh2LAKIAzFZMjavUurR0SjByyEQoFJWgCg2NLvaPQQr0z5QZ4m/gFJ1
+    !
+    transceiver qsfp default-mode 4x10G
+    !
+    service routing protocols model ribd
+    !
+    hostname no-osl-dc1-f1-r03k01-lf01
+    !
+    spanning-tree mode mstp
+    !
+    vrf instance mgmt
+    !
+    management api http-commands
+    no shutdown
+    !
+    vrf default
+    no shutdown
+    !
+    vrf mgmt
+    no shutdown
+    !
+    aaa authorization exec default local
+    !
+    interface Ethernet1
+    no switchport
+    ip address 10.16.2.1/31
+    !
+    interface Ethernet2
+    no switchport
+    ip address 10.16.2.7/31
+    !
+    interface Ethernet3
+    !
+    interface Ethernet4
+    !
+    interface Ethernet5
+    !
+    interface Ethernet6
+    !
+    interface Ethernet7
+    !
+    interface Ethernet8
+    !
+    interface Loopback0
+    description OSPF
+    ip address 10.16.1.1/32
+    !
+    interface Loopback10
+    ip address 10.16.4.1/32
+    !
+    interface Management1
+    vrf mgmt
+    ip address 172.16.108.111/24
+    !
+    ip routing
+    no ip routing vrf mgmt
+    !
+    ip route vrf mgmt 0.0.0.0/0 172.16.108.1
+    !
+    router ospf 1
+    router-id 10.16.0.3
+    redistribute connected
+    network 10.16.0.0/24 area 0.0.0.0
+    network 10.16.1.0/24 area 0.0.0.0
+    network 10.16.2.0/23 area 0.0.0.0
+    network 10.16.4.0/24 area 0.0.0.0
+    max-lsa 8000 40 ignore-time 6 ignore-count 3 reset-time 20
+    adjacency exchange-start threshold 20045623
+    !
+    end
+
+</details>
+
+
+<details><summary>no-osl-dc1-f1-r03k02-lf01</summary>
+
+    no-osl-dc1-f1-r03k02-lf01#sh run
+    ! Command: show running-config
+    ! device: no-osl-dc1-f1-r03k02-lf01 (vEOS-lab, EOS-4.29.2F)
+    !
+    ! boot system flash:/vEOS-lab.swi
+    !
+    no aaa root
+    !
+    username admin role network-admin secret sha512 $6$bEcez85VwzPcSfSU$48H2KxBqt9AkBfwQ9gzivSUtvh4vaxJWOAi9KwaW3yLX1HdhONd4s9Rb2BGGHeUMaKqAy.yofhnLw78PNbhE0/
+    username ansible privilege 15 secret sha512 $6$2Yx8taINhCO163Ah$0AFtg9oC7A9vUdewxEWhxtZ3M.m4wZNGSFQiZNpBX./OrjXBFJ2oRSlxy6uIjVxruW/3TAkBECH.kYVNFLOJ20
+    !
+    transceiver qsfp default-mode 4x10G
+    !
+    service routing protocols model ribd
+    !
+    hostname no-osl-dc1-f1-r03k02-lf01
+    !
+    spanning-tree mode mstp
+    !
+    vrf instance mgmt
+    !
+    management api http-commands
+    no shutdown
+    !
+    vrf default
+    no shutdown
+    !
+    vrf mgmt
+    no shutdown
+    !
+    aaa authorization exec default local
+    !
+    interface Ethernet1
+    no switchport
+    ip address 10.16.2.3/31
+    !
+    interface Ethernet2
+    no switchport
+    ip address 10.16.2.9/31
+    !
+    interface Ethernet3
+    !
+    interface Ethernet4
+    !
+    interface Ethernet5
+    !
+    interface Ethernet6
+    !
+    interface Ethernet7
+    !
+    interface Ethernet8
+    !
+    interface Loopback0
+    description OSPF
+    ip address 10.16.1.2/32
+    !
+    interface Loopback10
+    ip address 10.16.4.2/32
+    !
+    interface Management1
+    vrf mgmt
+    ip address 172.16.108.112/24
+    !
+    ip routing
+    no ip routing vrf mgmt
+    !
+    ip route vrf mgmt 0.0.0.0/0 172.16.108.1
+    !
+    router ospf 1
+    router-id 10.16.0.4
+    redistribute connected
+    network 10.16.0.0/24 area 0.0.0.0
+    network 10.16.1.0/24 area 0.0.0.0
+    network 10.16.2.0/23 area 0.0.0.0
+    network 10.16.4.0/24 area 0.0.0.0
+    max-lsa 8000 40 ignore-time 6 ignore-count 3 reset-time 20
+    adjacency exchange-start threshold 20045623
+    !
+    end
+
+</details>
+
+
+<details><summary>no-osl-dc1-f1-r03k03-lf01</summary>
+
+    no-osl-dc1-f1-r03k03-lf01#sh run
+    ! Command: show running-config
+    ! device: no-osl-dc1-f1-r03k03-lf01 (vEOS-lab, EOS-4.29.2F)
+    !
+    ! boot system flash:/vEOS-lab.swi
+    !
+    no aaa root
+    !
+    username admin role network-admin secret sha512 $6$jrExe2.ul80mXRvF$npLP4oUtbvML4SSXdLfUBC73vPh4ZLTekk71u8g7qb9wppAKriU5OzfmSlh122p08j5ZZihLaxFU6Owr.Gdsq0
+    username ansible privilege 15 secret sha512 $6$OOTqwZ9ozDE3S8KX$697BvcEIwP6Li0Razug8z4WRPkYmozbM5aCT6osZ1HR.igq7LxnASz39lbI1OqyLn8c7Thr5DT7q4YZVQD..q1
+    !
+    transceiver qsfp default-mode 4x10G
+    !
+    service routing protocols model ribd
+    !
+    hostname no-osl-dc1-f1-r03k03-lf01
+    !
+    spanning-tree mode mstp
+    !
+    vrf instance mgmt
+    !
+    management api http-commands
+    no shutdown
+    !
+    vrf default
+    no shutdown
+    !
+    vrf mgmt
+    no shutdown
+    !
+    aaa authorization exec default local
+    !
+    interface Ethernet1
+    no switchport
+    ip address 10.16.2.5/31
+    !
+    interface Ethernet2
+    no switchport
+    ip address 10.16.2.11/31
+    !
+    interface Ethernet3
+    !
+    interface Ethernet4
+    !
+    interface Ethernet5
+    !
+    interface Ethernet6
+    !
+    interface Ethernet7
+    !
+    interface Ethernet8
+    !
+    interface Loopback0
+    description OSPF
+    ip address 10.16.1.3/32
+    !
+    interface Loopback10
+    ip address 10.16.4.3/32
+    !
+    interface Management1
+    vrf mgmt
+    ip address 172.16.108.113/24
+    !
+    ip routing
+    no ip routing vrf mgmt
+    !
+    ip route vrf mgmt 0.0.0.0/0 172.16.108.1
+    !
+    router ospf 1
+    router-id 10.16.0.5
+    redistribute connected
+    network 10.16.0.0/24 area 0.0.0.0
+    network 10.16.1.0/24 area 0.0.0.0
+    network 10.16.2.0/23 area 0.0.0.0
+    network 10.16.4.0/24 area 0.0.0.0
+    max-lsa 8000 40 ignore-time 6 ignore-count 3 reset-time 20
+    adjacency exchange-start threshold 20045623
+    !
+    end
+
+</details>
+
+
+
+
+
+
+
+
 ### no-osl-dc1-f1-r01k01-spn01
 
 Внезапно открыл для себя раскрывающий текст, а переделывать предыдущее уже хочется ¯\_(ツ)_/¯
@@ -338,3 +813,4 @@ all.yml
     rtt min/avg/max/mdev = 2.376/3.189/5.611/1.238 ms, ipg/ewma 5.250/4.346 ms
 
 </details>
+
