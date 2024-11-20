@@ -244,3 +244,94 @@ all.yml
               - routes: "connected"
               router_id: "{{ global.ospf_router_id[inventory_hostname] }}"
 
+## Проверка корректности маршрутов и коннективности
+### no-osl-dc1-f1-r01k01-spn01
+<details><summary>Таблица маршрутизации no-osl-dc1-f1-r01k01-spn01</summary>   
+    
+    no-osl-dc1-f1-r01k01-spn01##sh ip route
+    
+    VRF: default
+    Codes: C - connected, S - static, K - kernel,
+    O - OSPF, IA - OSPF inter area, E1 - OSPF external type 1,
+    E2 - OSPF external type 2, N1 - OSPF NSSA external type 1,
+    N2 - OSPF NSSA external type2, B - Other BGP Routes,
+    B I - iBGP, B E - eBGP, R - RIP, I L1 - IS-IS level 1,
+    I L2 - IS-IS level 2, O3 - OSPFv3, A B - BGP Aggregate,
+    A O - OSPF Summary, NG - Nexthop Group Static Route,
+    V - VXLAN Control Service, M - Martian,
+    DH - DHCP client installed default route,
+    DP - Dynamic Policy Route, L - VRF Leaked,
+    G  - gRIBI, RC - Route Cache Route
+    
+    Gateway of last resort is not set
+    
+    C        10.16.0.1/32 is directly connected, Loopback0
+    O        10.16.0.2/32 [110/30] via 10.16.2.1, Ethernet1
+    via 10.16.2.3, Ethernet2
+    via 10.16.2.5, Ethernet3
+    O        10.16.1.1/32 [110/20] via 10.16.2.1, Ethernet1
+    O        10.16.1.2/32 [110/20] via 10.16.2.3, Ethernet2
+    O        10.16.1.3/32 [110/20] via 10.16.2.5, Ethernet3
+    C        10.16.2.0/31 is directly connected, Ethernet1
+    C        10.16.2.2/31 is directly connected, Ethernet2
+    C        10.16.2.4/31 is directly connected, Ethernet3
+    O        10.16.2.6/31 [110/20] via 10.16.2.1, Ethernet1
+    O        10.16.2.8/31 [110/20] via 10.16.2.3, Ethernet2
+    O        10.16.2.10/31 [110/20] via 10.16.2.5, Ethernet3
+    O        10.16.4.1/32 [110/20] via 10.16.2.1, Ethernet1
+    O        10.16.4.2/32 [110/20] via 10.16.2.3, Ethernet2
+    O        10.16.4.3/32 [110/20] via 10.16.2.5, Ethernet3
+</details>
+
+Проверяем, что с интерфейса loopback 0 устройства no-osl-dc1-f1-r01k01-spn01 доступны loopback интерфейсы устройств
+<details><summary>Проверка доступности loopback интерфейсов</summary>
+
+    no-osl-dc1-f1-r01k01-spn01#ping 10.16.0.2 source 10.16.0.1
+    PING 10.16.0.2 (10.16.0.2) from 10.16.0.1 : 72(100) bytes of data.
+    80 bytes from 10.16.0.2: icmp_seq=1 ttl=63 time=10.6 ms
+    80 bytes from 10.16.0.2: icmp_seq=2 ttl=63 time=7.29 ms
+    80 bytes from 10.16.0.2: icmp_seq=3 ttl=63 time=7.11 ms
+    80 bytes from 10.16.0.2: icmp_seq=4 ttl=63 time=8.07 ms
+    80 bytes from 10.16.0.2: icmp_seq=5 ttl=63 time=6.26 ms
+    
+    --- 10.16.0.2 ping statistics ---
+    5 packets transmitted, 5 received, 0% packet loss, time 41ms
+    rtt min/avg/max/mdev = 6.263/7.879/10.653/1.503 ms, ipg/ewma 10.302/9.202 ms
+
+    no-osl-dc1-f1-r01k01-spn01#ping 10.16.1.1 source 10.16.0.1
+    PING 10.16.1.1 (10.16.1.1) from 10.16.0.1 : 72(100) bytes of data.
+    80 bytes from 10.16.1.1: icmp_seq=1 ttl=64 time=5.46 ms
+    80 bytes from 10.16.1.1: icmp_seq=2 ttl=64 time=5.32 ms
+    80 bytes from 10.16.1.1: icmp_seq=3 ttl=64 time=3.60 ms
+    80 bytes from 10.16.1.1: icmp_seq=4 ttl=64 time=3.48 ms
+    80 bytes from 10.16.1.1: icmp_seq=5 ttl=64 time=3.22 ms
+    
+    --- 10.16.1.1 ping statistics ---
+    5 packets transmitted, 5 received, 0% packet loss, time 21ms
+    rtt min/avg/max/mdev = 3.221/4.218/5.460/0.967 ms, ipg/ewma 5.334/4.775 ms
+
+    no-osl-dc1-f1-r01k01-spn01#ping 10.16.1.2 source 10.16.0.1
+    PING 10.16.1.2 (10.16.1.2) from 10.16.0.1 : 72(100) bytes of data.
+    80 bytes from 10.16.1.2: icmp_seq=1 ttl=64 time=4.49 ms
+    80 bytes from 10.16.1.2: icmp_seq=2 ttl=64 time=3.56 ms
+    80 bytes from 10.16.1.2: icmp_seq=3 ttl=64 time=2.50 ms
+    80 bytes from 10.16.1.2: icmp_seq=4 ttl=64 time=2.53 ms
+    80 bytes from 10.16.1.2: icmp_seq=5 ttl=64 time=2.61 ms
+    
+    --- 10.16.1.2 ping statistics ---
+    5 packets transmitted, 5 received, 0% packet loss, time 16ms
+    rtt min/avg/max/mdev = 2.502/3.141/4.497/0.785 ms, ipg/ewma 4.223/3.777 ms
+
+    no-osl-dc1-f1-r01k01-spn01#ping 10.16.1.3 source 10.16.0.1
+    PING 10.16.1.3 (10.16.1.3) from 10.16.0.1 : 72(100) bytes of data.
+    80 bytes from 10.16.1.3: icmp_seq=1 ttl=64 time=5.61 ms
+    80 bytes from 10.16.1.3: icmp_seq=2 ttl=64 time=3.07 ms
+    80 bytes from 10.16.1.3: icmp_seq=3 ttl=64 time=2.37 ms
+    80 bytes from 10.16.1.3: icmp_seq=4 ttl=64 time=2.46 ms
+    80 bytes from 10.16.1.3: icmp_seq=5 ttl=64 time=2.42 ms
+    
+    --- 10.16.1.3 ping statistics ---
+    5 packets transmitted, 5 received, 0% packet loss, time 21ms
+    rtt min/avg/max/mdev = 2.376/3.189/5.611/1.238 ms, ipg/ewma 5.250/4.346 ms
+
+</details>
