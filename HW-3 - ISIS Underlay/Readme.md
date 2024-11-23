@@ -57,3 +57,13 @@
 
 Для устройств создан Config Template со содержимым https://github.com/anton-sap/otus-dc-network-design/blob/5d9ac1a77437521a542da299e5a0957398fc3e6e/HW-3%20-%20ISIS%20Underlay/files/spine_template.j2
 
+Этот темплейт делает следующие замечательные вещи:
+1. Генерирует конфигурацию для интерфейсов с именем, которое начинается на "^Ethernet", а именно:
+   * Вытягивает и устанавливает IP-адрес для интерфейса из Netbox
+   * Если на интерфейсе назначен IP-адрес переводит его в режим no switchport
+   * Назначает ему имя процесса IS-IS
+   * В случае, если интерфейс помечен, как активный в Netbox, переводит его в no shutdown
+
+Остальная магия с настройками и шаблоном Jinja2 связана с понятием Config Context из Netbox
+
+![](images/config_context_examples.png)
