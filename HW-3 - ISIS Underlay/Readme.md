@@ -222,13 +222,13 @@
     hostname no-osl-dc1-f1-r02k01-spn01
     !
     management api http-commands
-    no shutdown
-    !
-    vrf default
-    no shutdown
-    !
-    vrf mgmt
-    no shutdown
+       no shutdown
+       !
+       vrf default
+          no shutdown
+       !
+       vrf mgmt
+          no shutdown
     !
     ip routing
     no ip routing vrf mgmt
@@ -240,76 +240,76 @@
     vrf instance mgmt
     !
     interface Ethernet1
-    no switchport
-    isis enable hw2
-    ip address 10.16.2.6/31
-    no shutdown
+      no switchport
+      isis enable hw2
+      ip address 10.16.2.6/31
+      no shutdown
     !
     interface Ethernet2
-    no switchport
-    isis enable hw2
-    ip address 10.16.2.8/31
-    no shutdown
+      no switchport
+      isis enable hw2
+      ip address 10.16.2.8/31
+      no shutdown
     !
     interface Ethernet3
-    no switchport
-    isis enable hw2
-    ip address 10.16.2.10/31
-    no shutdown
+      no switchport
+      isis enable hw2
+      ip address 10.16.2.10/31
+      no shutdown
     !
     interface Ethernet4
-    no shutdown
+      no shutdown
     !
     interface Ethernet5
-    no shutdown
+      no shutdown
     !
     interface Ethernet6
-    no shutdown
+      no shutdown
     !
     interface Ethernet7
-    no shutdown
+      no shutdown
     !
     interface Ethernet8
-    no shutdown
+      no shutdown
     !
     interface Ethernet9
-    no shutdown
+      no shutdown
     !
     interface Ethernet10
-    no shutdown
+      no shutdown
     !
     interface Ethernet11
-    no shutdown
+      no shutdown
     !
     interface Ethernet12
-    no shutdown
+      no shutdown
     !
     interface Ethernet13
-    no shutdown
+      no shutdown
     !
     interface Ethernet14
-    no shutdown
+      no shutdown
     !
     interface Ethernet15
-    no shutdown
+      no shutdown
     !
     interface Ethernet16
-    no shutdown
+      no shutdown
     !
     interface Loopback0
-    ip address 10.16.0.2/32
-    isis enable hw2
-    description Loopback for RE
+      ip address 10.16.0.2/32
+      isis enable hw2
+      description Loopback for RE
     !
     interface Management1
-    ip address 172.16.108.102/24
-    vrf mgmt
+      ip address 172.16.108.102/24
+      vrf mgmt
     !
     router isis hw2
-    net 49.0001.0101.6000.0002.00
-    is-type level-2
-    !
-    address-family ipv4 unicast
+      net 49.0001.0101.6000.0002.00
+      is-type level-2
+      !
+      address-family ipv4 unicast
     !
     end
 
