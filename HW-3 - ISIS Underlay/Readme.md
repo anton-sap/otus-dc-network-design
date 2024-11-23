@@ -52,6 +52,8 @@
 После установки и конфигурирования считаем, что у нас в Netbox 5 устройств - 2 Spine-коммутатора, 3 - Leaf-коммутатора. Описываем их состояние внутри Netbox:
 ![](images/nb-devices.png)
 
+Для каждого устройства указаны соответствующие настройки интерфейсов средствами Netbox - адреса, кабели, состояние физического интерфейса - включен/выключен, description. 
+
 Пример состояния интерфейсов для no-osl-dc1-f1-r01k01-spn01
 ![](images/no-osl-dc1-f1-r01k01-spn01_interfaces.png)
 
@@ -112,5 +114,213 @@
             "mgmt": "mgmt"
         }
     }
+
+
+### PoC. Импорт конфигурационного файла, созданного в Netbox в устройства (ручной режим)
+
+На момент написания статьи не удалось реализовать импорт конфигурации в автоматическом режиме, поэтому автор копирует конфигурацию в каждое устройство как есть. При этом предполагается, что для устройств настроен только mgmt интерфейс, привилегированный пользователь. Остальные настройки соответствуют умолчаниям.
+
+<details><summary>no-osl-dc1-f1-r01k01-spn01</summary>
+
+    hostname no-osl-dc1-f1-r01k01-spn01
+    !
+    management api http-commands
+       no shutdown
+       !
+       vrf default
+          no shutdown
+       !
+       vrf mgmt
+          no shutdown
+    !
+    ip routing
+    no ip routing vrf mgmt
+    !
+    ip route vrf mgmt 0.0.0.0/0 172.16.108.1
+    !
+    spanning-tree mode mstp
+    !
+    vrf instance mgmt
+    !
+    interface Ethernet1
+      no switchport
+      isis enable hw2
+      ip address 10.16.2.0/31
+      no shutdown
+    !
+    interface Ethernet2
+      no switchport
+      isis enable hw2
+      ip address 10.16.2.2/31
+      no shutdown
+    !
+    interface Ethernet3
+      no switchport
+      isis enable hw2
+      ip address 10.16.2.4/31
+      no shutdown
+    !
+    interface Ethernet4
+      shutdown
+    !
+    interface Ethernet5
+      shutdown
+    !
+    interface Ethernet6
+      shutdown
+    !
+    interface Ethernet7
+      shutdown
+    !
+    interface Ethernet8
+      shutdown
+    !
+    interface Ethernet9
+      shutdown
+    !
+    interface Ethernet10
+      shutdown
+    !
+    interface Ethernet11
+      shutdown
+    !
+    interface Ethernet12
+      shutdown
+    !
+    interface Ethernet13
+      shutdown
+    !
+    interface Ethernet14
+      shutdown
+    !
+    interface Ethernet15
+      shutdown
+    !
+    interface Ethernet16
+      shutdown
+    !
+    interface Loopback0
+      ip address 10.16.0.1/32
+      isis enable hw2
+      description Loopback for RE
+    !
+    interface Management1
+      ip address 172.16.108.101/24
+      vrf mgmt
+    !
+    router isis hw2
+      net 49.0001.0101.6000.0001.00
+      is-type level-2
+      !
+      address-family ipv4 unicast
+    !
+    end
+</details>
+
+<details><summary></summary>
+
+    hostname no-osl-dc1-f1-r02k01-spn01
+    !
+    management api http-commands
+    no shutdown
+    !
+    vrf default
+    no shutdown
+    !
+    vrf mgmt
+    no shutdown
+    !
+    ip routing
+    no ip routing vrf mgmt
+    !
+    ip route vrf mgmt 0.0.0.0/0 172.16.108.1
+    !
+    spanning-tree mode mstp
+    !
+    vrf instance mgmt
+    !
+    interface Ethernet1
+    no switchport
+    isis enable hw2
+    ip address 10.16.2.6/31
+    no shutdown
+    !
+    interface Ethernet2
+    no switchport
+    isis enable hw2
+    ip address 10.16.2.8/31
+    no shutdown
+    !
+    interface Ethernet3
+    no switchport
+    isis enable hw2
+    ip address 10.16.2.10/31
+    no shutdown
+    !
+    interface Ethernet4
+    no shutdown
+    !
+    interface Ethernet5
+    no shutdown
+    !
+    interface Ethernet6
+    no shutdown
+    !
+    interface Ethernet7
+    no shutdown
+    !
+    interface Ethernet8
+    no shutdown
+    !
+    interface Ethernet9
+    no shutdown
+    !
+    interface Ethernet10
+    no shutdown
+    !
+    interface Ethernet11
+    no shutdown
+    !
+    interface Ethernet12
+    no shutdown
+    !
+    interface Ethernet13
+    no shutdown
+    !
+    interface Ethernet14
+    no shutdown
+    !
+    interface Ethernet15
+    no shutdown
+    !
+    interface Ethernet16
+    no shutdown
+    !
+    interface Loopback0
+    ip address 10.16.0.2/32
+    isis enable hw2
+    description Loopback for RE
+    !
+    interface Management1
+    ip address 172.16.108.102/24
+    vrf mgmt
+    !
+    router isis hw2
+    net 49.0001.0101.6000.0002.00
+    is-type level-2
+    !
+    address-family ipv4 unicast
+    !
+    end
+
+</details>
+
+
+
+
+
+
+
+
 
 
