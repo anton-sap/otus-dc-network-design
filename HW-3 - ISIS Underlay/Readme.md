@@ -217,7 +217,7 @@
     end
 </details>
 
-<details><summary></summary>
+<details><summary>no-osl-dc1-f1-r02k01-spn01</summary>
 
     hostname no-osl-dc1-f1-r02k01-spn01
     !
