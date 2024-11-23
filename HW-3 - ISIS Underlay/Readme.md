@@ -53,5 +53,5 @@
 ![](images/nb-devices.png)
 
 Для устройств создан Config Template со следующим содержимым
-https://github.com/anton-sap/otus-dc-network-design/blob/5d9ac1a77437521a542da299e5a0957398fc3e6e/HW-3%20-%20ISIS%20Underlay/files/spine_template.j2
+![](HW-3 - ISIS Underlay/files/spine_template.j2)
 
