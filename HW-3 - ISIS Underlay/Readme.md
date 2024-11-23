@@ -612,5 +612,5 @@
 
 ### Необходимо доделать
 * добавить в шаблон генерацию секции IS-IS для Loopback интерфейсов VTEP
-* ~~добавить в шаблон генерацию секции BFD~~ Добавлено в новой версии шаблона https://github.com/anton-sap/otus-dc-network-design/blob/4302263e90484ce46db28f77fe9ab8872a08d34a/HW-3%20-%20ISIS%20Underlay/files/lab_tamplate_bfd.j2 
+* ~~добавить в шаблон генерацию секции BFD~~ Добавлено в новой версии шаблона [https://github.com/anton-sap/otus-dc-network-design/blob/4302263e90484ce46db28f77fe9ab8872a08d34a/HW-3%20-%20ISIS%20Underlay/files/lab_tamplate_bfd.j2](шаблона) 
 * проверить и в случае необходимости добавить настройки ECMP
