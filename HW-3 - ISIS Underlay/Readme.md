@@ -67,3 +67,44 @@
 Остальная магия с настройками и шаблоном Jinja2 связана с понятием Config Context из Netbox
 
 ![](images/config_context_examples.png)
+
+Для каждого устройства, участвующего в построении IS-IS указан локальный контекст с именем "isis_id":
+
+`
+{
+    "isis_id": "0101.6000.0001"
+}
+`
+С помощью шаблона он генериуется в NET адрес в конструкции:
+
+    router isis {{ isis_instances.hw2_instance }}
+        net {{ isis_net_prefix }}{{ isis_id }}{{ isis_net_suffix }}
+        is-type {{ isis_type.type_2 }}
+    !
+        address-family ipv4 unicast
+
+Весь контекст суммируется на вкладке Rendered Context и представляет собой вот это:
+
+
+
+    {
+        "isis_id": "0101.6000.0001",
+        "isis_instances": {
+            "hw2_instance": "hw2"
+        },
+        "isis_net_prefix": "49.0001.",
+        "isis_net_suffix": ".00",
+        "isis_type": {
+            "type_1": "level-1",
+            "type_2": "level-2"
+        },
+        "mgmt_default_gw": "172.16.108.1",
+        "stp_mode": {
+            "mstp": "mstp"
+        },
+        "vrfs": {
+            "mgmt": "mgmt"
+        }
+    }
+
+
