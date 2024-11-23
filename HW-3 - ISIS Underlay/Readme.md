@@ -35,12 +35,96 @@
 >Это связано с тем, что протокол ISIS изначально был разработан для сетей CLNS. Хотя мы используем IP-адрес для маршрутизации IP-трафика, пакеты управления ISIS по-прежнему используют адрес CLNS для связи друг с другом.
 >> Машинный перевод части статьи https://rayka-co.com/lesson/isis-net-address-format/#google_vignette
 
-Формат CLNS адреса для наглядности. Пригодится позже
+Формат CLNS адреса для наглядности. Пригодится позже.
 ![](images/ISIS_clns.png)
 
 Вводные для IS-IS:
-   * Для упрощения и совместимости принимаем, что все устройства работают с IS-IS Type 2.
+   * Для упрощения и совместимости принимаем, что все устройства работают с IS-IS Level 2.
    * В качестве System ID используем видоизмененный адрес Loopback
      * 10.16.0.1 представляем видом 100.160.000.001 - добавляем лидирующих или конечных нулей
      * Переписываем значение в вид 100.160.000.001, двигаем точки и получаем: 1001.6000.0001
 ![](images/HW-3-map.png)
+
+## Достижение результата
+
+Тут мы эволюционируем и меняем парадигму xD. Принимаем за основу состояние сети из Netbox. Как его установить можно взять вот тут https://netboxlabs.com/docs/netbox/en/stable/installation/
+
+После установки и конфигурирования считаем, что у нас в Netbox 5 устройств - 2 Spine-коммутатора, 3 - Leaf-коммутатора. Описываем их состояние внутри Netbox:
+![](images/nb-devices.png)
+
+Для устройств создан Config Template со следующим содержимым:
+
+`
+hostname {{ device.name }}
+!
+{%- block content %}
+management api http-commands
+   no shutdown
+   !
+   vrf default
+      no shutdown
+   !
+   vrf {{ vrfs.mgmt }}
+      no shutdown
+{%- endblock %}
+!
+ip routing
+no ip routing vrf {{ vrfs.mgmt }}
+!
+ip route vrf {{ vrfs.mgmt }} 0.0.0.0/0 {{ mgmt_default_gw }}
+!
+{%- for key, value in stp_mode.items() %}
+spanning-tree mode {{ value }}
+!
+{%- endfor %}
+{%- for key, value in vrfs.items() %}
+vrf instance {{ value }}
+!
+{%- endfor %}
+{%- for interface in device.interfaces.all() %}
+  {%- if interface.name.startswith('Ethernet') %}
+interface {{ interface.name }}
+    {%- for ip in interface.ip_addresses.all() %}
+  no switchport
+  isis enable {{ isis_instances.hw2_instance }}
+  ip address {{ ip.address }}
+    {%- endfor %}
+    {%- if not interface.enabled %}
+  shutdown
+    {%- else %}
+  no shutdown
+    {%- endif %}
+    {%- if interface.description %}
+  description {{ interface.description }}
+    {%- endif %}
+!
+  {%- elif interface.name.startswith('Loopback') %}
+interface {{ interface.name }}
+    {%- for ip in interface.ip_addresses.all() %}
+  ip address {{ ip.address }}
+  isis enable {{ isis_instances.hw2_instance }}
+    {%- endfor %}
+    {%- if interface.description %}
+  description {{ interface.description }}
+    {%- endif %}
+!
+  {%- elif interface.name.startswith('Management') %}
+interface {{ interface.name }}
+    {%- for ip in interface.ip_addresses.all() %}
+  ip address {{ ip.address }}
+  vrf {{ vrfs.mgmt }}
+    {%- endfor %}
+    {%- if interface.description %}
+  description {{ interface.description }}
+    {%- endif %}
+!
+  {%- endif %}
+{%- endfor %}
+router isis {{ isis_instances.hw2_instance }}
+  net {{ isis_net_prefix }}{{ isis_id }}{{ isis_net_suffix }}
+  is-type {{ isis_type.type_2 }}
+  !
+  address-family ipv4 unicast
+!
+end
+`
