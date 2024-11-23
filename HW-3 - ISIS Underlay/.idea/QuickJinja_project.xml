@@ -3,7 +3,7 @@
   <component name="de.achimonline.quickjinja.settings.QuickJinjaProjectSettingsState">
     <option name="settings">
       <QuickJinjaProjectSettings>
-        <option name="templateFilePath" value="$PROJECT_DIR$/spine_template.j2" />
+        <option name="templateFilePath" value="$PROJECT_DIR$/files/spine_template.j2" />
       </QuickJinjaProjectSettings>
     </option>
   </component>
