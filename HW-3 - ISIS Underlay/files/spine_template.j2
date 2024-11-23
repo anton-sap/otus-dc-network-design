@@ -1,0 +1,72 @@
+hostname {{ device.name }}
+!
+{%- block content %}
+management api http-commands
+   no shutdown
+   !
+   vrf default
+      no shutdown
+   !
+   vrf {{ vrfs.mgmt }}
+      no shutdown
+{%- endblock %}
+!
+ip routing
+no ip routing vrf {{ vrfs.mgmt }}
+!
+ip route vrf {{ vrfs.mgmt }} 0.0.0.0/0 {{ mgmt_default_gw }}
+!
+{%- for key, value in stp_mode.items() %}
+spanning-tree mode {{ value }}
+!
+{%- endfor %}
+{%- for key, value in vrfs.items() %}
+vrf instance {{ value }}
+!
+{%- endfor %}
+{%- for interface in device.interfaces.all() %}
+  {%- if interface.name.startswith('Ethernet') %}
+interface {{ interface.name }}
+    {%- for ip in interface.ip_addresses.all() %}
+  no switchport
+  isis enable {{ isis_instances.hw2_instance }}
+  ip address {{ ip.address }}
+    {%- endfor %}
+    {%- if not interface.enabled %}
+  shutdown
+    {%- else %}
+  no shutdown
+    {%- endif %}
+    {%- if interface.description %}
+  description {{ interface.description }}
+    {%- endif %}
+!
+  {%- elif interface.name.startswith('Loopback') %}
+interface {{ interface.name }}
+    {%- for ip in interface.ip_addresses.all() %}
+  ip address {{ ip.address }}
+  isis enable {{ isis_instances.hw2_instance }}
+    {%- endfor %}
+    {%- if interface.description %}
+  description {{ interface.description }}
+    {%- endif %}
+!
+  {%- elif interface.name.startswith('Management') %}
+interface {{ interface.name }}
+    {%- for ip in interface.ip_addresses.all() %}
+  ip address {{ ip.address }}
+  vrf {{ vrfs.mgmt }}
+    {%- endfor %}
+    {%- if interface.description %}
+  description {{ interface.description }}
+    {%- endif %}
+!
+  {%- endif %}
+{%- endfor %}
+router isis {{ isis_instances.hw2_instance }}
+  net {{ isis_net_prefix }}{{ isis_id }}{{ isis_net_suffix }}
+  is-type {{ isis_type.type_2 }}
+  !
+  address-family ipv4 unicast
+!
+end
