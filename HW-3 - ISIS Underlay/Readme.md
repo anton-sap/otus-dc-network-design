@@ -600,6 +600,9 @@
 
 </details>
 
+### Результат настройки IS-IS
+Маршруты на spine-коммутаторах
+![](images/isis_routes_spine.png)
 
-
-
+Маршруты на leaf-коммутаторах
+![](images/isis_routes_leaf.png)
