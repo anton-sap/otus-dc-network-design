@@ -315,11 +315,290 @@
 
 </details>
 
+<details><summary>no-osl-dc1-f1-r03k01-lf01</summary>
 
+    hostname no-osl-dc1-f1-r03k01-lf01
+    !
+    management api http-commands
+       no shutdown
+       !
+       vrf default
+          no shutdown
+       !
+       vrf mgmt
+          no shutdown
+    !
+    ip routing
+    no ip routing vrf mgmt
+    !
+    ip route vrf mgmt 0.0.0.0/0 172.16.108.1
+    !
+    spanning-tree mode mstp
+    !
+    vrf instance mgmt
+    !
+    interface Ethernet1
+      no switchport
+      isis enable hw2
+      ip address 10.16.2.1/31
+      no shutdown
+    !
+    interface Ethernet2
+      no switchport
+      isis enable hw2
+      ip address 10.16.2.7/31
+      no shutdown
+    !
+    interface Ethernet3
+      no shutdown
+    !
+    interface Ethernet4
+      no shutdown
+    !
+    interface Ethernet5
+      no shutdown
+    !
+    interface Ethernet6
+      no shutdown
+    !
+    interface Ethernet7
+      no shutdown
+    !
+    interface Ethernet8
+      no shutdown
+    !
+    interface Ethernet9
+      no shutdown
+    !
+    interface Ethernet10
+      no shutdown
+    !
+    interface Ethernet11
+      no shutdown
+    !
+    interface Ethernet12
+      no shutdown
+    !
+    interface Ethernet13
+      no shutdown
+    !
+    interface Ethernet14
+      no shutdown
+    !
+    interface Ethernet15
+      no shutdown
+    !
+    interface Ethernet16
+      no shutdown
+    !
+    interface Loopback0
+      ip address 10.16.1.1/32
+      isis enable hw2
+      description Loopback for RE
+    !
+    interface Management1
+      ip address 172.16.108.111/24
+      vrf mgmt
+    !
+    router isis hw2
+      net 49.0001.0101.6000.1001.00
+      is-type level-2
+      !
+      address-family ipv4 unicast
+    !
+    end
 
+</details>
 
+<details><summary>no-osl-dc1-f1-r03k02-lf01</summary>
 
+    hostname no-osl-dc1-f1-r03k02-lf01
+    !
+    management api http-commands
+       no shutdown
+       !
+       vrf default
+          no shutdown
+       !
+       vrf mgmt
+          no shutdown
+    !
+    ip routing
+    no ip routing vrf mgmt
+    !
+    ip route vrf mgmt 0.0.0.0/0 172.16.108.1
+    !
+    spanning-tree mode mstp
+    !
+    vrf instance mgmt
+    !
+    interface Ethernet1
+      no switchport
+      isis enable hw2
+      ip address 10.16.2.3/31
+      no shutdown
+    !
+    interface Ethernet2
+      no switchport
+      isis enable hw2
+      ip address 10.16.2.9/31
+      no shutdown
+    !
+    interface Ethernet3
+      no shutdown
+    !
+    interface Ethernet4
+      no shutdown
+    !
+    interface Ethernet5
+      no shutdown
+    !
+    interface Ethernet6
+      no shutdown
+    !
+    interface Ethernet7
+      no shutdown
+    !
+    interface Ethernet8
+      no shutdown
+    !
+    interface Ethernet9
+      no shutdown
+    !
+    interface Ethernet10
+      no shutdown
+    !
+    interface Ethernet11
+      no shutdown
+    !
+    interface Ethernet12
+      no shutdown
+    !
+    interface Ethernet13
+      no shutdown
+    !
+    interface Ethernet14
+      no shutdown
+    !
+    interface Ethernet15
+      no shutdown
+    !
+    interface Ethernet16
+      no shutdown
+    !
+    interface Loopback0
+      ip address 10.16.1.2/32
+      isis enable hw2
+      description Loopback for RE
+    !
+    interface Management1
+      ip address 172.16.108.112/24
+      vrf mgmt
+    !
+    router isis hw2
+      net 49.0001.0101.6000.1002.00
+      is-type level-2
+      !
+      address-family ipv4 unicast
+    !
+    end
 
+</details>
+
+<details><summary>no-osl-dc1-f1-r03k03-lf01</summary>
+
+    hostname no-osl-dc1-f1-r03k03-lf01
+    !
+    management api http-commands
+       no shutdown
+       !
+       vrf default
+          no shutdown
+       !
+       vrf mgmt
+          no shutdown
+    !
+    ip routing
+    no ip routing vrf mgmt
+    !
+    ip route vrf mgmt 0.0.0.0/0 172.16.108.1
+    !
+    spanning-tree mode mstp
+    !
+    vrf instance mgmt
+    !
+    interface Ethernet1
+      no switchport
+      isis enable hw2
+      ip address 10.16.2.5/31
+      no shutdown
+    !
+    interface Ethernet2
+      no switchport
+      isis enable hw2
+      ip address 10.16.2.11/31
+      no shutdown
+    !
+    interface Ethernet3
+      no shutdown
+    !
+    interface Ethernet4
+      no shutdown
+    !
+    interface Ethernet5
+      no shutdown
+    !
+    interface Ethernet6
+      no shutdown
+    !
+    interface Ethernet7
+      no shutdown
+    !
+    interface Ethernet8
+      no shutdown
+    !
+    interface Ethernet9
+      no shutdown
+    !
+    interface Ethernet10
+      no shutdown
+    !
+    interface Ethernet11
+      no shutdown
+    !
+    interface Ethernet12
+      no shutdown
+    !
+    interface Ethernet13
+      no shutdown
+    !
+    interface Ethernet14
+      no shutdown
+    !
+    interface Ethernet15
+      no shutdown
+    !
+    interface Ethernet16
+      no shutdown
+    !
+    interface Loopback0
+      ip address 10.16.1.3/32
+      isis enable hw2
+      description Loopback for RE
+    !
+    interface Management1
+      ip address 172.16.108.113/24
+      vrf mgmt
+    !
+    router isis hw2
+      net 49.0001.0101.6000.1003.00
+      is-type level-2
+      !
+      address-family ipv4 unicast
+    !
+    end
+
+</details>
 
 
 
