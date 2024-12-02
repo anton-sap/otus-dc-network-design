@@ -65,6 +65,7 @@ interface {{ interface.name }}
 !
 {%- for local_asn, sessions in device.bgpsession_set.all() | groupby('local_as.asn') %}
 router bgp {{ local_asn }}
+   maximum-paths 2
   {%- for session in sessions %}
    neighbor {{ session.remote_address.address.ip }} remote-as {{ session.remote_as.asn }}
    neighbor {{ session.remote_address.address.ip }} bfd
