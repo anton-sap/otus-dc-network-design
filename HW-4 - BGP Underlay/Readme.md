@@ -131,3 +131,6 @@ _Примечание_
 
 * [no-osl-dc1-f1-r01k01-spn01.conf](files/no-osl-dc1-f1-r01k01-spn01.conf)
 * [no-osl-dc1-f1-r02k01-spn01.conf](files/no-osl-dc1-f1-r02k01-spn01.conf)
+* [no-osl-dc1-f1-r03k01-lf01.conf](files/no-osl-dc1-f1-r03k01-lf01.conf)
+* [no-osl-dc1-f1-r03k02-lf01.conf](files/no-osl-dc1-f1-r03k02-lf01.conf)
+* [no-osl-dc1-f1-r03k03-lf01.conf](files/no-osl-dc1-f1-r03k03-lf01.conf)
