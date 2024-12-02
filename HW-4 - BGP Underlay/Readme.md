@@ -128,4 +128,6 @@ _Примечание_
 
 4. Применяем новый шаблон для генерации конфигурации устройств и BGP [netbox_bgp_template](files/netbox_bgp_template.jinja2).
 5. Применяем Rendered Config к устройствам (все еще вручную)
-[no-osl-dc1-f1-r01k01-spn01.conf](files/no-osl-dc1-f1-r01k01-spn01.conf)
+
+* [no-osl-dc1-f1-r01k01-spn01.conf](files/no-osl-dc1-f1-r01k01-spn01.conf)
+* [no-osl-dc1-f1-r02k01-spn01.conf](/files/no-osl-dc1-f1-r02k01-spn01.conf)
