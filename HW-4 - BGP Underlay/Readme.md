@@ -126,4 +126,6 @@ _Примечание_
 * _Для массового добавления нужно использовать импорт._
 * _Высокий риск допустить ошибку при ручном заполнении._
 
-4. Применяем новый шаблон для генерации конфигурации устройств и BGP [netbox_bgp_template](files/netbox_bgp_template.jinja2)
+4. Применяем новый шаблон для генерации конфигурации устройств и BGP [netbox_bgp_template](files/netbox_bgp_template.jinja2).
+5. Применяем Rendered Config к устройствам (все еще вручную)
+[no-osl-dc1-f1-r01k01-spn01.conf](files/no-osl-dc1-f1-r01k01-spn01.conf)
