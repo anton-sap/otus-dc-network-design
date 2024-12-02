@@ -63,6 +63,7 @@ interface {{ interface.name }}
   {%- endif %}
 {%- endfor %}
 !
+! Данный блок отвечает за генерацию конфигурации для BGP из Netbox
 {%- for local_asn, sessions in device.bgpsession_set.all() | groupby('local_as.asn') %}
 router bgp {{ local_asn }}
    maximum-paths 2
