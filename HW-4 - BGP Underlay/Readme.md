@@ -134,3 +134,158 @@ _Примечание_
 * [no-osl-dc1-f1-r03k01-lf01.conf](files/no-osl-dc1-f1-r03k01-lf01.conf)
 * [no-osl-dc1-f1-r03k02-lf01.conf](files/no-osl-dc1-f1-r03k02-lf01.conf)
 * [no-osl-dc1-f1-r03k03-lf01.conf](files/no-osl-dc1-f1-r03k03-lf01.conf)
+
+## Результат настройки BGP
+
+<details><summary>no-osl-dc1-f1-r03k01-lf01: sh ip route bgp</summary>
+
+    VRF: default
+    Codes: C - connected, S - static, K - kernel, 
+           O - OSPF, IA - OSPF inter area, E1 - OSPF external type 1,
+           E2 - OSPF external type 2, N1 - OSPF NSSA external type 1,
+           N2 - OSPF NSSA external type2, B - Other BGP Routes,
+           B I - iBGP, B E - eBGP, R - RIP, I L1 - IS-IS level 1,
+           I L2 - IS-IS level 2, O3 - OSPFv3, A B - BGP Aggregate,
+           A O - OSPF Summary, NG - Nexthop Group Static Route,
+           V - VXLAN Control Service, M - Martian,
+           DH - DHCP client installed default route,
+           DP - Dynamic Policy Route, L - VRF Leaked,
+           G  - gRIBI, RC - Route Cache Route
+    
+    B E      10.16.0.1/32 [200/0] via 10.16.2.0, Ethernet1
+    B E      10.16.0.2/32 [200/0] via 10.16.2.6, Ethernet2
+    B E      10.16.1.2/32 [200/0] via 10.16.2.0, Ethernet1
+    via 10.16.2.6, Ethernet2
+    B E      10.16.1.3/32 [200/0] via 10.16.2.0, Ethernet1
+    via 10.16.2.6, Ethernet2
+    B E      10.16.2.2/31 [200/0] via 10.16.2.0, Ethernet1
+    B E      10.16.2.4/31 [200/0] via 10.16.2.0, Ethernet1
+    B E      10.16.2.8/31 [200/0] via 10.16.2.6, Ethernet2
+    B E      10.16.2.10/31 [200/0] via 10.16.2.6, Ethernet2
+    B E      10.16.4.2/32 [200/0] via 10.16.2.0, Ethernet1
+    via 10.16.2.6, Ethernet2
+    B E      10.16.4.3/32 [200/0] via 10.16.2.0, Ethernet1
+    via 10.16.2.6, Ethernet2
+</details>
+<details><summary>no-osl-dc1-f1-r03k02-lf01: sh ip route bgp</summary>
+
+    VRF: default
+    Codes: C - connected, S - static, K - kernel, 
+           O - OSPF, IA - OSPF inter area, E1 - OSPF external type 1,
+           E2 - OSPF external type 2, N1 - OSPF NSSA external type 1,
+           N2 - OSPF NSSA external type2, B - Other BGP Routes,
+           B I - iBGP, B E - eBGP, R - RIP, I L1 - IS-IS level 1,
+           I L2 - IS-IS level 2, O3 - OSPFv3, A B - BGP Aggregate,
+           A O - OSPF Summary, NG - Nexthop Group Static Route,
+           V - VXLAN Control Service, M - Martian,
+           DH - DHCP client installed default route,
+           DP - Dynamic Policy Route, L - VRF Leaked,
+           G  - gRIBI, RC - Route Cache Route
+    
+     B E      10.16.0.1/32 [200/0] via 10.16.2.2, Ethernet1
+     B E      10.16.0.2/32 [200/0] via 10.16.2.8, Ethernet2
+     B E      10.16.1.1/32 [200/0] via 10.16.2.2, Ethernet1
+                                   via 10.16.2.8, Ethernet2
+     B E      10.16.1.3/32 [200/0] via 10.16.2.2, Ethernet1
+                                   via 10.16.2.8, Ethernet2
+     B E      10.16.2.0/31 [200/0] via 10.16.2.2, Ethernet1
+     B E      10.16.2.4/31 [200/0] via 10.16.2.2, Ethernet1
+     B E      10.16.2.6/31 [200/0] via 10.16.2.8, Ethernet2
+     B E      10.16.2.10/31 [200/0] via 10.16.2.8, Ethernet2
+     B E      10.16.4.1/32 [200/0] via 10.16.2.2, Ethernet1
+                                   via 10.16.2.8, Ethernet2
+     B E      10.16.4.3/32 [200/0] via 10.16.2.2, Ethernet1
+                                   via 10.16.2.8, Ethernet2
+
+</details>
+<details><summary>no-osl-dc1-f1-r03k03-lf01: sh ip route bgp</summary>
+
+    VRF: default
+    Codes: C - connected, S - static, K - kernel, 
+           O - OSPF, IA - OSPF inter area, E1 - OSPF external type 1,
+           E2 - OSPF external type 2, N1 - OSPF NSSA external type 1,
+           N2 - OSPF NSSA external type2, B - Other BGP Routes,
+           B I - iBGP, B E - eBGP, R - RIP, I L1 - IS-IS level 1,
+           I L2 - IS-IS level 2, O3 - OSPFv3, A B - BGP Aggregate,
+           A O - OSPF Summary, NG - Nexthop Group Static Route,
+           V - VXLAN Control Service, M - Martian,
+           DH - DHCP client installed default route,
+           DP - Dynamic Policy Route, L - VRF Leaked,
+           G  - gRIBI, RC - Route Cache Route
+    
+    Gateway of last resort is not set
+    
+     B E      10.16.0.1/32 [200/0] via 10.16.2.4, Ethernet1
+     B E      10.16.0.2/32 [200/0] via 10.16.2.10, Ethernet2
+     B E      10.16.1.1/32 [200/0] via 10.16.2.4, Ethernet1
+                                   via 10.16.2.10, Ethernet2
+     B E      10.16.1.2/32 [200/0] via 10.16.2.4, Ethernet1
+                                   via 10.16.2.10, Ethernet2
+     C        10.16.1.3/32 is directly connected, Loopback0
+     B E      10.16.2.0/31 [200/0] via 10.16.2.4, Ethernet1
+     B E      10.16.2.2/31 [200/0] via 10.16.2.4, Ethernet1
+     C        10.16.2.4/31 is directly connected, Ethernet1
+     B E      10.16.2.6/31 [200/0] via 10.16.2.10, Ethernet2
+     B E      10.16.2.8/31 [200/0] via 10.16.2.10, Ethernet2
+     C        10.16.2.10/31 is directly connected, Ethernet2
+     B E      10.16.4.1/32 [200/0] via 10.16.2.4, Ethernet1
+                                   via 10.16.2.10, Ethernet2
+     B E      10.16.4.2/32 [200/0] via 10.16.2.4, Ethernet1
+                                   via 10.16.2.10, Ethernet2
+     C        10.16.4.3/32 is directly connected, Loopback10
+
+</details>
+
+Проверяем доступность loopback интерфейсов
+
+<details><summary>ping</summary>
+
+    no-osl-dc1-f1-r03k01-lf01#ping 10.16.1.2 source 10.16.1.1
+    PING 10.16.1.2 (10.16.1.2) from 10.16.1.1 : 72(100) bytes of data.
+    80 bytes from 10.16.1.2: icmp_seq=1 ttl=63 time=10.2 ms
+    80 bytes from 10.16.1.2: icmp_seq=2 ttl=63 time=6.67 ms
+    80 bytes from 10.16.1.2: icmp_seq=3 ttl=63 time=6.87 ms
+    80 bytes from 10.16.1.2: icmp_seq=4 ttl=63 time=7.18 ms
+    80 bytes from 10.16.1.2: icmp_seq=5 ttl=63 time=6.53 ms
+    
+    --- 10.16.1.2 ping statistics ---
+    5 packets transmitted, 5 received, 0% packet loss, time 38ms
+    rtt min/avg/max/mdev = 6.539/7.504/10.256/1.396 ms, ipg/ewma 9.632/8.831 ms
+
+    no-osl-dc1-f1-r03k01-lf01#ping 10.16.1.3 source 10.16.1.1
+    PING 10.16.1.3 (10.16.1.3) from 10.16.1.1 : 72(100) bytes of data.
+    80 bytes from 10.16.1.3: icmp_seq=1 ttl=63 time=8.93 ms
+    80 bytes from 10.16.1.3: icmp_seq=2 ttl=63 time=6.03 ms
+    80 bytes from 10.16.1.3: icmp_seq=3 ttl=63 time=6.54 ms
+    80 bytes from 10.16.1.3: icmp_seq=4 ttl=63 time=6.92 ms
+    80 bytes from 10.16.1.3: icmp_seq=5 ttl=63 time=6.67 ms
+    
+    --- 10.16.1.3 ping statistics ---
+    5 packets transmitted, 5 received, 0% packet loss, time 34ms
+    rtt min/avg/max/mdev = 6.033/7.023/8.933/1.003 ms, ipg/ewma 8.546/7.960 ms
+
+    no-osl-dc1-f1-r03k01-lf01#ping 10.16.4.2 source 10.16.4.1
+    PING 10.16.4.2 (10.16.4.2) from 10.16.4.1 : 72(100) bytes of data.
+    80 bytes from 10.16.4.2: icmp_seq=1 ttl=63 time=8.34 ms
+    80 bytes from 10.16.4.2: icmp_seq=2 ttl=63 time=7.16 ms
+    80 bytes from 10.16.4.2: icmp_seq=3 ttl=63 time=11.9 ms
+    80 bytes from 10.16.4.2: icmp_seq=4 ttl=63 time=7.64 ms
+    80 bytes from 10.16.4.2: icmp_seq=5 ttl=63 time=9.38 ms
+    
+    --- 10.16.4.2 ping statistics ---
+    5 packets transmitted, 5 received, 0% packet loss, time 37ms
+    rtt min/avg/max/mdev = 7.162/8.896/11.944/1.700 ms, ipg/ewma 9.480/8.645 ms
+
+    no-osl-dc1-f1-r03k01-lf01#ping 10.16.4.3 source 10.16.4.1
+    PING 10.16.4.3 (10.16.4.3) from 10.16.4.1 : 72(100) bytes of data.
+    80 bytes from 10.16.4.3: icmp_seq=1 ttl=63 time=11.0 ms
+    80 bytes from 10.16.4.3: icmp_seq=2 ttl=63 time=10.6 ms
+    80 bytes from 10.16.4.3: icmp_seq=3 ttl=63 time=9.23 ms
+    80 bytes from 10.16.4.3: icmp_seq=4 ttl=63 time=8.72 ms
+    80 bytes from 10.16.4.3: icmp_seq=5 ttl=63 time=11.5 ms
+    
+    --- 10.16.4.3 ping statistics ---
+    5 packets transmitted, 5 received, 0% packet loss, time 48ms
+    rtt min/avg/max/mdev = 8.722/10.251/11.557/1.090 ms, ipg/ewma 12.173/10.661 ms
+
+</details>
