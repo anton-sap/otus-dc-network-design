@@ -106,3 +106,22 @@ _Распределение AS нужно пересмотреть в преде
 На картинке выглядит так:
 
 ![](images/HW-4-map.png)
+
+## Достижение результата
+
+В результате поисков путей реализации лабораторный Netbox был дополнен двумя, на мой взгляд, полезными плагинами:
+* NetBox BGP Plugin https://github.com/netbox-community/netbox-bgp/ - документирование BGP.
+* NextBox UI Plugin https://github.com/iDebugAll/nextbox-ui-plugin - визуализация топологий.
+
+Итак, мы имеем установленный и настроенный Netbox с плагином "NetBox BGP Plugin". Далее, нам нужно заполнить информацию о BGP, а именно:
+1. Создать в разделе `IPAM -> Aggregates -> RIRs` хотя бы один [RIR](https://en.wikipedia.org/wiki/Regional_Internet_registry)
+![](images/netbox_rir.png)
+2. Создать в разделе `IPAM -> ASNS -> ASNs` автономные системы согласно таблички выше и соотнести их к RIR:
+![](images/netbox_asns.png)
+3. Заполнить информацию о BGP сессиях в разделе `Plugins ->BGP -> Sessions` :
+![](images/netbox_bgp_sessions.png)
+
+_Примечание_
+
+* _Для массового добавления нужно использовать импорт._
+* _Высокий риск допустить ошибку при ручном заполнении._

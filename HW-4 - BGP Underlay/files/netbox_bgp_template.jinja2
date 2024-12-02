@@ -1,0 +1,75 @@
+hostname {{ device.name }}
+!
+{%- block content %}
+management api http-commands
+   no shutdown
+   !
+   vrf default
+      no shutdown
+   !
+   vrf {{ vrfs.mgmt }}
+      no shutdown
+{%- endblock %}
+!
+ip routing
+no ip routing vrf {{ vrfs.mgmt }}
+!
+ip route vrf {{ vrfs.mgmt }} 0.0.0.0/0 {{ mgmt_default_gw }}
+!
+{%- for key, value in stp_mode.items() %}
+spanning-tree mode {{ value }}
+!
+{%- endfor %}
+{%- for key, value in vrfs.items() %}
+vrf instance {{ value }}
+!
+{%- endfor %}
+{%- for interface in device.interfaces.all() %}
+  {%- if interface.name.startswith('Ethernet') %}
+interface {{ interface.name }}
+    {%- for ip in interface.ip_addresses.all() %}
+  no switchport
+  bfd interval 200 min-rx 200 multiplier 3
+  ip address {{ ip.address }}
+    {%- endfor %}
+    {%- if not interface.enabled %}
+  shutdown
+    {%- else %}
+  no shutdown
+    {%- endif %}
+    {%- if interface.description %}
+  description {{ interface.description }}
+    {%- endif %}
+!
+  {%- elif interface.name.startswith('Loopback') %}
+interface {{ interface.name }}
+    {%- for ip in interface.ip_addresses.all() %}
+  ip address {{ ip.address }}
+    {%- endfor %}
+    {%- if interface.description %}
+  description {{ interface.description }}
+    {%- endif %}
+!
+  {%- elif interface.name.startswith('Management') %}
+interface {{ interface.name }}
+    {%- for ip in interface.ip_addresses.all() %}
+  ip address {{ ip.address }}
+  vrf {{ vrfs.mgmt }}
+    {%- endfor %}
+    {%- if interface.description %}
+  description {{ interface.description }}
+    {%- endif %}
+!
+  {%- endif %}
+{%- endfor %}
+!
+{%- for local_asn, sessions in device.bgpsession_set.all() | groupby('local_as.asn') %}
+router bgp {{ local_asn }}
+  {%- for session in sessions %}
+   neighbor {{ session.remote_address.address.ip }} remote-as {{ session.remote_as.asn }}
+   neighbor {{ session.remote_address.address.ip }} bfd
+  {%- endfor %}
+   redistribute connected
+{%- endfor %}
+!
+end
