@@ -105,6 +105,13 @@ interface {{ interface.name }}
   {%- endif %}
 {%- endfor %}
 !
+interface Vxlan1
+   vxlan source-interface Loopback10
+   vxlan udp-port 4789
+   {%- for vlan in device.site.vlans.all() %}
+   vxlan vlan {{ vlan.vid }} vni {{ 100000 + vlan.vid }}
+   {%- endfor %}
+!
 {%- for local_asn, sessions in device.bgpsession_set.all() | groupby('local_as.asn') %}
 router bgp {{ local_asn }}
    router-id {{ device.interfaces.get(name="Loopback0").ip_addresses.first().address.ip }}
@@ -117,6 +124,14 @@ router bgp {{ local_asn }}
    neighbor {{ session.remote_address.address.ip }} remote-as {{ session.remote_as.asn }}
   {%- endfor %}
    redistribute connected route-map loopback-map
+   !
+{%- for vlan in device.site.vlans.all() %}
+   vlan {{ vlan.vid }}
+      rd auto
+      route-target both {{ vlan.vid }}:{{ 100000 + vlan.vid }}
+      redistribute learned
+   !
+{%- endfor %}
    !
    address-family evpn
       neighbor {{ bgp_peer_groups.spine_peers }} activate
