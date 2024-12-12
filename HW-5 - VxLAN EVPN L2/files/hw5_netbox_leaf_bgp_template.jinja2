@@ -1,0 +1,98 @@
+no aaa root
+!
+username admin role network-admin secret sha512 $6$rrnahywJrf./cxZU$WLwjSO8L/iXagrGAHvaZfp4zFCmX017V3NR0vfqm9Xj0gg24gyCi/5pHahpF503vWpWMjtyKqTp.Q/YqEfPmT/
+!
+transceiver qsfp default-mode 4x10G
+!
+service routing protocols model multi-agent
+!
+hostname {{ device.name }}
+!
+vrf instance {{ vrfs.mgmt }}
+!
+{%- block content %}
+management api http-commands
+   no shutdown
+   !
+   vrf default
+      no shutdown
+   !
+   vrf {{ vrfs.mgmt }}
+      no shutdown
+{%- endblock %}
+!
+ip routing
+no ip routing vrf {{ vrfs.mgmt }}
+!
+ip prefix-list loopback-list
+  seq 10 permit {{ device.interfaces.get(name="Loopback10").ip_addresses.first().address }}
+!
+ip route vrf {{ vrfs.mgmt }} 0.0.0.0/0 {{ mgmt_default_gw }}
+!
+route-map loopback-map permit 10
+   match ip address prefix-list loopback-list
+!
+{%- for key, value in stp_mode.items() %}
+spanning-tree mode {{ value }}
+!
+{%- endfor %}
+{%- for key, value in vrfs.items() %}
+{%- endfor %}
+{%- for interface in device.interfaces.all() %}
+  {%- if interface.name.startswith('Ethernet') %}
+interface {{ interface.name }}
+    {%- for ip in interface.ip_addresses.all() %}
+  mtu 9214
+  no switchport
+  bfd interval 200 min-rx 200 multiplier 3
+  ip address {{ ip.address }}
+    {%- endfor %}
+    {%- if not interface.enabled %}
+  shutdown
+    {%- else %}
+  no shutdown
+    {%- endif %}
+    {%- if interface.description %}
+  description {{ interface.description }}
+    {%- endif %}
+!
+  {%- elif interface.name.startswith('Loopback') %}
+interface {{ interface.name }}
+    {%- for ip in interface.ip_addresses.all() %}
+  ip address {{ ip.address }}
+    {%- endfor %}
+    {%- if interface.description %}
+  description {{ interface.description }}
+    {%- endif %}
+!
+  {%- elif interface.name.startswith('Management') %}
+interface {{ interface.name }}
+    {%- for ip in interface.ip_addresses.all() %}
+  ip address {{ ip.address }}
+  vrf {{ vrfs.mgmt }}
+    {%- endfor %}
+    {%- if interface.description %}
+  description {{ interface.description }}
+    {%- endif %}
+!
+  {%- endif %}
+{%- endfor %}
+!
+{%- for local_asn, sessions in device.bgpsession_set.all() | groupby('local_as.asn') %}
+router bgp {{ local_asn }}
+   router-id {{ device.interfaces.get(name="Loopback0").ip_addresses.first().address.ip }}
+   maximum-paths 2
+   neighbor {{ bgp_peer_groups.spine_peers }} peer group
+   neighbor {{ bgp_peer_groups.spine_peers }} bfd
+   neighbor {{ bgp_peer_groups.spine_peers }} send-community extended
+  {%- for session in sessions %}
+   neighbor {{ session.remote_address.address.ip }} peer group {{ bgp_peer_groups.spine_peers }}
+   neighbor {{ session.remote_address.address.ip }} remote-as {{ session.remote_as.asn }}
+  {%- endfor %}
+   redistribute connected route-map loopback-map
+   !
+   address-family evpn
+      neighbor {{ bgp_peer_groups.spine_peers }} activate
+{%- endfor %}
+!
+end
