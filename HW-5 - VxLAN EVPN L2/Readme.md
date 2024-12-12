@@ -143,3 +143,202 @@ _Здесь стоит сделать паузу. Куратор курса да
 Итог:
 Шаблон собирает вместе множество данных о устройстве и его окружении (имя, интерфейсы, IP-адреса, VRF, VLAN, BGP, EVPN) и генерирует полноценную конфигурацию, готовую к применению. Он автоматически настраивает базовые параметры безопасности и управления, линейные и петлевые интерфейсы, L2/L3 параметры, VXLAN/EVPN для мульти-тенантной сети, а также объявляет маршруты и параметры BGP для обмена маршрутами (включая EVPN).
 </details>
+
+Например, для устройства no-osl-dc1-f1-r03k01-lf01 на основании настроек интерфейсов в Netbox сгенерируется следующий конфиг
+
+<details><summary>no-osl-dc1-f1-r03k01-lf01.conf</summary>
+
+    no aaa root
+    !
+    username admin role network-admin secret sha512 $6$rrnahywJrf./cxZU$WLwjSO8L/iXagrGAHvaZfp4zFCmX017V3NR0vfqm9Xj0gg24gyCi/5pHahpF503vWpWMjtyKqTp.Q/YqEfPmT/
+    !
+    transceiver qsfp default-mode 4x10G
+    !
+    service routing protocols model multi-agent
+    !
+    hostname no-osl-dc1-f1-r03k01-lf01
+    !
+    vrf instance mgmt
+    !
+    management api http-commands
+       no shutdown
+       !
+       vrf default
+          no shutdown
+       !
+       vrf mgmt
+          no shutdown
+    !
+    ip routing
+    no ip routing vrf mgmt
+    !
+    ip prefix-list loopback-list
+      seq 10 permit 10.16.4.1/32
+    !
+    ip route vrf mgmt 0.0.0.0/0 172.16.108.1
+    !
+    route-map loopback-map permit 10
+       match ip address prefix-list loopback-list
+    !
+    spanning-tree mode mstp
+    !
+    vlan 10
+      name vmware_vlan
+    !
+    vlan 20
+      name vm_vlan_20
+    !
+    vlan 30
+      name vm_vlan_30
+    !
+    interface Ethernet1
+      mtu 9214
+      no switchport
+      bfd interval 200 min-rx 200 multiplier 3
+      ip address 10.16.2.1/31
+      no shutdown
+    !
+    interface Ethernet2
+      mtu 9214
+      no switchport
+      bfd interval 200 min-rx 200 multiplier 3
+      ip address 10.16.2.101/31
+      no shutdown
+    !
+    interface Ethernet3
+      switchport
+      switchport mode access
+      switchport access vlan 10
+      no shutdown
+    !
+    interface Ethernet4
+      switchport
+      switchport mode access
+      switchport access vlan 1
+      shutdown
+    !
+    interface Ethernet5
+      switchport
+      switchport mode access
+      switchport access vlan 1
+      shutdown
+    !
+    interface Ethernet6
+      switchport
+      switchport mode access
+      switchport access vlan 1
+      shutdown
+    !
+    interface Ethernet7
+      switchport
+      switchport mode access
+      switchport access vlan 1
+      shutdown
+    !
+    interface Ethernet8
+      switchport
+      switchport mode access
+      switchport access vlan 1
+      shutdown
+    !
+    interface Ethernet9
+      switchport
+      switchport mode access
+      switchport access vlan 1
+      shutdown
+    !
+    interface Ethernet10
+      switchport
+      switchport mode access
+      switchport access vlan 1
+      shutdown
+    !
+    interface Ethernet11
+      switchport
+      switchport mode access
+      switchport access vlan 1
+      shutdown
+    !
+    interface Ethernet12
+      switchport
+      switchport mode access
+      switchport access vlan 1
+      shutdown
+    !
+    interface Ethernet13
+      switchport
+      switchport mode access
+      switchport access vlan 1
+      shutdown
+    !
+    interface Ethernet14
+      switchport
+      switchport mode access
+      switchport access vlan 1
+      shutdown
+    !
+    interface Ethernet15
+      switchport
+      switchport mode access
+      switchport access vlan 1
+      shutdown
+    !
+    interface Ethernet16
+      switchport
+      switchport mode access
+      switchport access vlan 1
+      shutdown
+    !
+    interface Loopback0
+      ip address 10.16.1.1/32
+      description Loopback for RE
+    !
+    interface Loopback10
+      ip address 10.16.4.1/32
+      description Loopback for VTEP
+    !
+    interface Management1
+      ip address 172.16.108.111/24
+      vrf mgmt
+    !
+    !
+    interface Vxlan1
+       vxlan source-interface Loopback10
+       vxlan udp-port 4789
+       vxlan vlan 10 vni 100010
+       vxlan vlan 20 vni 100020
+       vxlan vlan 30 vni 100030
+    !
+    router bgp 4200131331
+       router-id 10.16.1.1
+       maximum-paths 2
+       neighbor SPINE-PEERS peer group
+       neighbor SPINE-PEERS bfd
+       neighbor SPINE-PEERS send-community extended
+       neighbor 10.16.2.0 peer group SPINE-PEERS
+       neighbor 10.16.2.0 remote-as 4200131329
+       neighbor 10.16.2.100 peer group SPINE-PEERS
+       neighbor 10.16.2.100 remote-as 4200131329
+       redistribute connected route-map loopback-map
+       !
+       vlan 10
+          rd auto
+          route-target both 10:100010
+          redistribute learned
+       !
+       vlan 20
+          rd auto
+          route-target both 20:100020
+          redistribute learned
+       !
+       vlan 30
+          rd auto
+          route-target both 30:100030
+          redistribute learned
+       !
+       !
+       address-family evpn
+          neighbor SPINE-PEERS activate
+    !
+    end
+</details>
