@@ -78,6 +78,7 @@ router bgp {{ local_asn }}
    maximum-paths 2
    neighbor {{ bgp_peer_groups.leaf_peers }} peer group
    neighbor {{ bgp_peer_groups.leaf_peers }} bfd
+   neighbor {{ bgp_peer_groups.leaf_peers }} send-community extended
   {%- for session in sessions %}
    neighbor {{ session.remote_address.address.ip }} peer group {{ bgp_peer_groups.leaf_peers }}
    neighbor {{ session.remote_address.address.ip }} remote-as {{ session.remote_as.asn }}
