@@ -94,42 +94,43 @@ _Здесь стоит сделать паузу. Куратор курса да
 
 <details><summary>LEAF</summary>
 Этот шаблон Jinja2 автоматически генерирует конфигурацию сетевого коммутатора (под управлением Arista EOS) на основе данных, полученных из NetBox или других контекстных переменных. Рассмотрим основные аспекты, которые он реализует:
-	1.	Начальные настройки устройства:
-      * no aaa root: Отключение некоторых настроек AAA по умолчанию.
-      * Создание пользователя admin с заданной ролью и секретом.
-      * Настройка трансиверов QSFP в режим 4x10G.
-      * Переключение модели протоколов маршрутизации на multi-agent.
-      * Установка hostname устройства (hostname {{ device.name }}).
-	2.	Настройка VRF и управления:
-      * Создаёт VRF для управления (vrf instance {{ vrfs.mgmt }}).
-      * В блоке management api http-commands включается доступ к API и отключение shutdown для default и management VRF.
-	3.	Маршрутизация:
-      * Включается IP-маршрутизация (ip routing).
-      * no ip routing vrf {{ vrfs.mgmt }} — специфическое отключение маршрутизации в mgmt VRF.
-      * Настройка prefix-list для loopback10 (ip prefix-list loopback-list).
-      * Добавление статического маршрута по умолчанию в management VRF (ip route vrf {{ vrfs.mgmt }} 0.0.0.0/0 {{ mgmt_default_gw }}).
-      * route-map loopback-map для фильтрации и распространения loopback-маршрутов.
-	4.	Spanning-Tree и VLAN:
-      * Настраивает режимы spanning-tree, используя данные из stp_mode.
-      * Генерирует конфигурацию для всех VLAN, связанных с сайтом устройства: vlan `<vid>` с name `<vlan.name>`.
-	5.	Настройка интерфейсов:
-      * Перебирает все интерфейсы устройства:
-      * Ethernet интерфейсы:
-      * Если есть IP-адрес: задаётся MTU, L3-режим (no switchport), BFD, IP-адрес. Интерфейс поднимается или выключается по флагу enabled, добавляется description при наличии.
-      * Если IP-адресов нет: интерфейс становится L2 (access или trunk), назначаются VLAN согласно mode и untagged/tagged VLAN.
-      * Loopback интерфейсы: Назначаются IP-адреса, описание при наличии.
-      * Management интерфейсы: Назначаются IP-адреса, привязываются к управленческому VRF, описание при наличии.
-	6.	VXLAN конфигурация:
-      * Создаётся интерфейс Vxlan1.
-      * Указывается vxlan source-interface Loopback10, vxlan udp-port 4789.
-      * Перебираются VLAN сайта и для каждого создаётся сопоставление `vxlan vlan <vid> vni <100000 + vid>` — таким образом, каждому VLAN назначается свой VNI.
-	7.	BGP EVPN конфигурация:
-      * Перебираются BGP-сессии, сгруппированные по локальному AS.
-      * Настраивается router bgp <local_asn> с router-id, равным адресу Loopback0.
-      * Задаётся peer-group для leaf (spine_peers), включается BFD, send-community extended.
-      * Добавляются соседи (neighbor) из sessions с указанием remote-as.
-      * redistribute connected route-map loopback-map позволяет распространить локальные loopback маршруты через BGP.
-      * Настройка EVPN address-family: активируется соседи из peer-group для EVPN.
+
+1.	Начальные настройки устройства:
+  * no aaa root: Отключение некоторых настроек AAA по умолчанию.
+  * Создание пользователя admin с заданной ролью и секретом.
+  * Настройка трансиверов QSFP в режим 4x10G.
+  * Переключение модели протоколов маршрутизации на multi-agent.
+  * Установка hostname устройства (hostname {{ device.name }}).
+2.	Настройка VRF и управления:
+  * Создаёт VRF для управления (vrf instance {{ vrfs.mgmt }}).
+  * В блоке management api http-commands включается доступ к API и отключение shutdown для default и management VRF.
+3.	Маршрутизация:
+  * Включается IP-маршрутизация (ip routing).
+  * no ip routing vrf {{ vrfs.mgmt }} — специфическое отключение маршрутизации в mgmt VRF.
+  * Настройка prefix-list для loopback10 (ip prefix-list loopback-list).
+  * Добавление статического маршрута по умолчанию в management VRF (ip route vrf {{ vrfs.mgmt }} 0.0.0.0/0 {{ mgmt_default_gw }}).
+  * route-map loopback-map для фильтрации и распространения loopback-маршрутов.
+4.	Spanning-Tree и VLAN:
+  * Настраивает режимы spanning-tree, используя данные из stp_mode.
+  * Генерирует конфигурацию для всех VLAN, связанных с сайтом устройства: vlan `<vid>` с name `<vlan.name>`.
+5.	Настройка интерфейсов:
+  * Перебирает все интерфейсы устройства:
+  * Ethernet интерфейсы:
+  * Если есть IP-адрес: задаётся MTU, L3-режим (no switchport), BFD, IP-адрес. Интерфейс поднимается или выключается по флагу enabled, добавляется description при наличии.
+  * Если IP-адресов нет: интерфейс становится L2 (access или trunk), назначаются VLAN согласно mode и untagged/tagged VLAN.
+  * Loopback интерфейсы: Назначаются IP-адреса, описание при наличии.
+  * Management интерфейсы: Назначаются IP-адреса, привязываются к управленческому VRF, описание при наличии.
+6.	VXLAN конфигурация:
+  * Создаётся интерфейс Vxlan1.
+  * Указывается vxlan source-interface Loopback10, vxlan udp-port 4789.
+  * Перебираются VLAN сайта и для каждого создаётся сопоставление `vxlan vlan <vid> vni <100000 + vid>` — таким образом, каждому VLAN назначается свой VNI.
+7.	BGP EVPN конфигурация:
+  * Перебираются BGP-сессии, сгруппированные по локальному AS.
+  * Настраивается router bgp <local_asn> с router-id, равным адресу Loopback0.
+  * Задаётся peer-group для leaf (spine_peers), включается BFD, send-community extended.
+  * Добавляются соседи (neighbor) из sessions с указанием remote-as.
+  * redistribute connected route-map loopback-map позволяет распространить локальные loopback маршруты через BGP.
+  * Настройка EVPN address-family: активируется соседи из peer-group для EVPN.
 Дополнительно, для каждого VLAN генерируется EVPN-секция:
 
     vlan <vid>
