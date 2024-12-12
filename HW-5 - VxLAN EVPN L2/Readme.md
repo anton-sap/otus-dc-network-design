@@ -146,6 +146,8 @@ _Здесь стоит сделать паузу. Куратор курса да
 
 Например, для устройства no-osl-dc1-f1-r03k01-lf01 на основании настроек интерфейсов в Netbox сгенерируется следующий конфиг
 
+![](images/netbox_device_if_example.png)
+
 <details><summary>no-osl-dc1-f1-r03k01-lf01.conf</summary>
 
     no aaa root
