@@ -52,15 +52,15 @@ _Здесь стоит сделать паузу. Куратор курса да
 
 Ниже — более детальный разбор того, что делает шаблон:
 1.	Базовые настройки безопасности и управления:
-•	no aaa root: Выключает определённые AAA настройки по умолчанию.
-•	Настройка пользователя admin с ролью network-admin и заданным секретом.
-•	transceiver qsfp default-mode 4x10G: Определяет режим работы QSFP-трансиверов.
-•	service routing protocols model multi-agent: Переключение модели протоколов маршрутизации на «multi-agent» (особенность Arista EOS).
+   * no aaa root: Выключает определённые AAA настройки по умолчанию.
+   * Настройка пользователя admin с ролью network-admin и заданным секретом.
+   * transceiver qsfp default-mode 4x10G: Определяет режим работы QSFP-трансиверов.
+   * service routing protocols model multi-agent: Переключение модели протоколов маршрутизации на «multi-agent» (особенность Arista EOS).
 2.	Hostname и VRF для управления:
-•	hostname {{ device.name }}: Устанавливает имя устройства согласно данным из NetBox.
-•	vrf instance {{ vrfs.mgmt }}: Создаёт VRF для управления (management VRF), имя которого берётся из шаблона vrfs.mgmt.
+   *	hostname {{ device.name }}: Устанавливает имя устройства согласно данным из NetBox.
+   *	vrf instance {{ vrfs.mgmt }}: Создаёт VRF для управления (management VRF), имя которого берётся из шаблона vrfs.mgmt.
 3.	Управление через API и VRF:
-•	В блоке {% block content %}: Настраивается management api http-commands, включается no shutdown для default VRF и управленческого VRF, что позволяет управлять устройством по API из правильного VRF.
+*	В блоке {% block content %}: Настраивается management api http-commands, включается no shutdown для default VRF и управленческого VRF, что позволяет управлять устройством по API из правильного VRF.
 4.	Маршрутизация:
 •	Включается IP-маршрутизация (ip routing).
 •	no ip routing vrf {{ vrfs.mgmt }} — отключение маршрутизации в этом VRF.
