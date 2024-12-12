@@ -39,4 +39,8 @@
 
 ![](images/netbox_sessions.png)
 
-_Здесь стоит сделать паузу. Куратор курса дал направление в сторону динамических соседей. Это нужно обдумать, так как инфо в Netbox нужно будет отдавать с устройств. Подумаем позже над этим_
+_Здесь стоит сделать паузу. Куратор курса дал направление в сторону динамических соседей. Это нужно обдумать, так как инфо в Netbox нужно будет отдавать с устройств. Подумаем позже над этим._
+
+## Достижение результата
+
+Как и прежде, конфигурация устройств генерируется внутри Netbox на основе его данных через шаблоны. Методом проб и ошибок я пришел к тому, что шаблон нужно разделить для групп устройств. Теперь их два - один для Spine'ов [hw5_netbox_spine_bgp_template.jinja2](https://github.com/anton-sap/otus-dc-network-design/blob/master/HW-5%20-%20VxLAN%20EVPN%20L2/files/hw5_netbox_spine_bgp_template.jinja2), второй - для Leaf'ов [hw5_netbox_leaf_bgp_template.jinja2](https://github.com/anton-sap/otus-dc-network-design/blob/master/HW-5%20-%20VxLAN%20EVPN%20L2/files/hw5_netbox_leaf_bgp_template.jinja2).
