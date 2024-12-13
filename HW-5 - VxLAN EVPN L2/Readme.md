@@ -371,3 +371,11 @@ _Здесь стоит сделать паузу. Куратор курса да
 Вывод команды `show vxlan vtep`
 
 ![](images/sh_vxlan_vtep.png)
+
+Вывод команд 'show mac address-table' и `show vxlan address-table`
+
+![](images/sh_mac-add.png)
+
+Вывод команды `show bgp evpn route-type mac-ip`
+
+![](images/sh_bgp_evpn_mac_ip.png)
