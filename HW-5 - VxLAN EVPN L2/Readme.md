@@ -364,4 +364,10 @@ _Здесь стоит сделать паузу. Куратор курса да
 ### Проверка настроек
 Ниже приложены скриншоты с устройства `no-osl-dc1-f1-r03k03-lf02`, к которому подключен тестовый PC на Ubuntu. С этого PC запушены ping до всех гипервизиров: 192.168.10.1, 192.168.10.2, 192.168.10.3
 
-![show interfaces vxlan 1](images/sh_int_vxlan1.png)
+Вывод команды `show interfaces vxlan 1`
+
+![](images/sh_int_vxlan1.png)
+
+Вывод команды `show vxlan vtep`
+
+![](images/sh_vxlan_vtep.png)
