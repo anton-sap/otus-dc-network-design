@@ -387,3 +387,15 @@ _Здесь стоит сделать паузу. Куратор курса да
 В данном сценарии перезапускаем no-osl-dc1-f1-r01k01-spn01
 
 ![](images/scenario1/s1_map.png)
+
+Проверяем устройство `no-osl-dc1-f1-r03k03-lf02`
+
+![](images/scenario1/leaf6_out.png)
+
+Видим в логе сообщения
+
+`Dec 13 07:08:14 no-osl-dc1-f1-r03k03-lf02 Bgp: %BGP-3-NOTIFICATION: sent to neighbor 10.16.2.10 (VRF default AS 4200131329) 6/10 (Cease/BFD down <Hard Reset>) 0 bytes`
+
+И проверяем доступность гипервизоров с тестового PC
+
+![](images/scenario1/hv_ping.png)
