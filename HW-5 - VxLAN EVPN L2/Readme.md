@@ -351,5 +351,10 @@ _Здесь стоит сделать паузу. Куратор курса да
 ### Конфигурационные файлы
 
 Сгенерированные в Netbox файлы подложены как start-up config в лабе EVE-NG как есть без ручных изменений:
-[no-osl-dc1-f1-r01k01-spn01](/files/no-osl-dc1-f1-r01k01-spn01.txt)
+
+* [no-osl-dc1-f1-r01k01-spn01](files/no-osl-dc1-f1-r01k01-spn01.txt)
+* [no-osl-dc1-f1-r02k01-spn01](files/no-osl-dc1-f1-r02k01-spn01.txt)
+* [no-osl-dc1-f1-r03k01-lf01](files/no-osl-dc1-f1-r03k01-lf01.txt)
+* [no-osl-dc1-f1-r03k01-lf02](files/no-osl-dc1-f1-r03k01-lf02.txt)
+
 
