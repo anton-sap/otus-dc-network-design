@@ -372,7 +372,7 @@ _Здесь стоит сделать паузу. Куратор курса да
 
 ![](images/sh_vxlan_vtep.png)
 
-Вывод команд 'show mac address-table' и `show vxlan address-table`
+Вывод команд `show mac address-table` и `show vxlan address-table`
 
 ![](images/sh_mac-add.png)
 
