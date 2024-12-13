@@ -136,7 +136,7 @@ _Здесь стоит сделать паузу. Куратор курса да
   * Настройка EVPN address-family: активируется соседи из peer-group для EVPN.
 Дополнительно, для каждого VLAN генерируется EVPN-секция:
 
-    `vlan <vid>
+`    vlan <vid>
        rd auto
        route-target both <vid>:<100000+vid>
        redistribute learned`
