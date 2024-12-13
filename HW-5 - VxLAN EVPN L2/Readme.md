@@ -20,7 +20,7 @@
 
 Идем в свой выдуманный ДЦ в Netbox и смотрим на расположение оборудования:
 
-![](images/netbox_racks.jpg)
+![](images/netbox_racks.png)
 
 
 
