@@ -1,4 +1,4 @@
-# Сказ о том, как системный администратор постигал датацентровые сети (EVPN VXLAN)
+# Сказ о том, как я погружался в датацентровые сети (EVPN VXLAN)
 [Часть 1. Проектирование адресного пространства](https://github.com/anton-sap/otus-dc-network-design/tree/master/HW-1)
 
 [Часть 2. Underlay. OSPF](https://github.com/anton-sap/otus-dc-network-design/tree/master/HW-2%20-%20OSPF%20Underlay)
