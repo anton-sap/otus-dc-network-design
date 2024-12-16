@@ -1,4 +1,4 @@
-# VxLAN. L2 VNI
+# VxLAN. EVPN L2
 
 ## Цель
 * Настроить Overlay на основе VxLAN EVPN для L2 связанности между клиентами
