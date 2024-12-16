@@ -64,7 +64,7 @@
     !
     {%- endfor %}
 
-2. В блок генерации интерфейсов и IP-адресов добавлена генерация для vlan-интерфейсов
+2. В блок генерации интерфейсов и IP-адресов добавлена генерация для vlan-интерфейсов 
 
 
       {%- elif interface.name.startswith('Vlan') %}
@@ -95,7 +95,6 @@
               {%- set _ = all_targets.append(target) %}
             {%- endif %}
           {%- endfor %}
-    
           {%- for target in all_targets %}
           route-target import evpn {{ target }}
           route-target export evpn {{ target }}
