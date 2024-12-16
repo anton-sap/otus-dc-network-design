@@ -115,6 +115,14 @@
 
 ### Конфигурационные файлы
 
+* [no-osl-dc1-f1-r01k01-spn01](files/configs/no-osl-dc1-f1-r01k01-spn01.txt)
+* [no-osl-dc1-f1-r02k01-spn01](files/configs/no-osl-dc1-f1-r02k01-spn01.txt)
+* [no-osl-dc1-f1-r03k01-lf01](files/configs/no-osl-dc1-f1-r03k01-lf01.txt)
+* [no-osl-dc1-f1-r03k01-lf02](files/configs/no-osl-dc1-f1-r03k01-lf02.txt)
+* [no-osl-dc1-f1-r03k02-lf01](files/configs/no-osl-dc1-f1-r03k02-lf01.txt)
+* [no-osl-dc1-f1-r03k02-lf02](files/configs/no-osl-dc1-f1-r03k02-lf02.txt)
+* [no-osl-dc1-f1-r03k03-lf01](files/configs/no-osl-dc1-f1-r03k03-lf01.txt)
+* [no-osl-dc1-f1-r03k03-lf02](files/configs/no-osl-dc1-f1-r03k03-lf02.txt)
 
 
 
