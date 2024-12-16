@@ -50,20 +50,19 @@
 Описание нового [шаблона для leaf-коммутаторов](files/hw6_netbox_leaf_bgp_template.jinja2):
 1. Добавлен блок для генерации VRF:
 
-`
-{%- set interface_vrf_names = [] %}
-{%- for interface in device.interfaces.all() %}
-    {%- for ip in interface.ip_addresses.all() %}
-        {%- if ip.vrf and ip.vrf.name not in interface_vrf_names %}
-            {%- set _ = interface_vrf_names.append(ip.vrf.name) %}
-        {%- endif %}
-    {%- endfor %}
-{%- endfor %}
-{%- for vrf_name in interface_vrf_names %}
-vrf instance {{ vrf_name }}
-!
-{%- endfor %}
-`
+
+        {%- set interface_vrf_names = [] %}
+        {%- for interface in device.interfaces.all() %}
+            {%- for ip in interface.ip_addresses.all() %}
+                {%- if ip.vrf and ip.vrf.name not in interface_vrf_names %}
+                    {%- set _ = interface_vrf_names.append(ip.vrf.name) %}
+                {%- endif %}
+            {%- endfor %}
+        {%- endfor %}
+        {%- for vrf_name in interface_vrf_names %}
+        vrf instance {{ vrf_name }}
+        !
+        {%- endfor %}
 
 2. В блок генерации интерфейсов и IP-адресов добавлена генерация для vlan-интерфейсов 
 
