@@ -7,4 +7,6 @@
 
 [Часть 4. Underlay BGP](https://github.com/anton-sap/otus-dc-network-design/tree/master/HW-4%20-%20BGP%20Underlay)
 
-[Часть 5. VxLAN. L2 VNI](https://github.com/anton-sap/otus-dc-network-design/tree/master/HW-5%20-%20VxLAN%20EVPN%20L2)
+[Часть 5. VxLAN. EVPN L2](https://github.com/anton-sap/otus-dc-network-design/tree/master/HW-5%20-%20VxLAN%20EVPN%20L2)
+
+[Часть 6. VxLAN. EVPN L3](https://github.com/anton-sap/otus-dc-network-design/tree/master/HW-6%20-%20VxLAN%20EVPN%20L3)
