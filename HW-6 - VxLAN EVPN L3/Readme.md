@@ -25,7 +25,7 @@
 
 * no-osl-dc1-f1-r03k02-lf02
     * За leaf'ом no-osl-dc1-f1-r03k02-lf02 появилась сеть 192.168.41.0/24.
-    * На leaf no-osl-dc1-f1-r03k02-lf02 настроен vlan11. Порт Ethernet 4 настроен в режиме access для vlan11
+    * На leaf no-osl-dc1-f1-r03k02-lf02 настроен vlan11. Порт Ethernet 4 настроен в режиме access для vlan41
     * На leaf no-osl-dc1-f1-r03k02-lf02 настроен интерфейс Vlan11 с адресом 192.168.41.254/24
     * К коммутатору на порт Ethernet 4 подключен PC с адресом 192.168.41.1/24 и gw 192.168.41.254
 
