@@ -67,42 +67,42 @@
 2. В блок генерации интерфейсов и IP-адресов добавлена генерация для vlan-интерфейсов 
 
 
-      {%- elif interface.name.startswith('Vlan') %}
-    interface {{ interface.name }}
-        {%- for ip in interface.ip_addresses.all() %}
-      ip address {{ ip.address }}
-      vrf {{ interface.ip_addresses.first().vrf.name }}
-        {%- endfor %}
-        {%- if interface.description %}
-      description {{ interface.description }}
-        {%- endif %}
+          {%- elif interface.name.startswith('Vlan') %}
+        interface {{ interface.name }}
+            {%- for ip in interface.ip_addresses.all() %}
+          ip address {{ ip.address }}
+          vrf {{ interface.ip_addresses.first().vrf.name }}
+            {%- endfor %}
+            {%- if interface.description %}
+          description {{ interface.description }}
+            {%- endif %}
 
 3. В блок генерации настроек BGP добавлена логика генерации для VRF
 
 
-    {%- for interface in device.interfaces.all() %}
-      {%- if interface.name.startswith('Vlan') and interface.tags.filter(slug='vxlan').exists() %}
-       vrf {{ interface.ip_addresses.first().vrf.name }}
-          rd {{ device.interfaces.get(name="Loopback0").ip_addresses.first().address.ip }}:{{ interface.ip_addresses.first().vrf.id }}
-          {%- set all_targets = [] %}
-          {%- for target in interface.ip_addresses.first().vrf.import_targets.all() %}
-            {%- if target not in all_targets %}
-              {%- set _ = all_targets.append(target) %}
-            {%- endif %}
-          {%- endfor %}
-          {%- for target in interface.ip_addresses.first().vrf.export_targets.all() %}
-            {%- if target not in all_targets %}
-              {%- set _ = all_targets.append(target) %}
-            {%- endif %}
-          {%- endfor %}
-          {%- for target in all_targets %}
-          route-target import evpn {{ target }}
-          route-target export evpn {{ target }}
-          {%- endfor %}
-          redistribute connected
-        !
-      {%- endif %}
-    {%- endfor %}
+        {%- for interface in device.interfaces.all() %}
+          {%- if interface.name.startswith('Vlan') and interface.tags.filter(slug='vxlan').exists() %}
+           vrf {{ interface.ip_addresses.first().vrf.name }}
+              rd {{ device.interfaces.get(name="Loopback0").ip_addresses.first().address.ip }}:{{ interface.ip_addresses.first().vrf.id }}
+              {%- set all_targets = [] %}
+              {%- for target in interface.ip_addresses.first().vrf.import_targets.all() %}
+                {%- if target not in all_targets %}
+                  {%- set _ = all_targets.append(target) %}
+                {%- endif %}
+              {%- endfor %}
+              {%- for target in interface.ip_addresses.first().vrf.export_targets.all() %}
+                {%- if target not in all_targets %}
+                  {%- set _ = all_targets.append(target) %}
+                {%- endif %}
+              {%- endfor %}
+              {%- for target in all_targets %}
+              route-target import evpn {{ target }}
+              route-target export evpn {{ target }}
+              {%- endfor %}
+              redistribute connected
+            !
+          {%- endif %}
+        {%- endfor %}
 
 4. Другие небольшие изменения в виде фильтров для связки vlan-vni.
 
