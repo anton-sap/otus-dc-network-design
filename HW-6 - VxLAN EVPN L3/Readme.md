@@ -161,3 +161,41 @@
                                          10.16.4.4             -       100     0       4200131329 4200131334 i
          *  ec    RD: 10.16.1.4:1 ip-prefix 192.168.41.0/24
                                          10.16.4.4             -       100     0       4200131329 4200131334 i
+
+* no-osl-dc1-f1-r03k01-lf01
+
+Вывод команды `show vxlan vtep`
+
+        no-osl-dc1-f1-r03k02-lf02#sh vxlan vtep
+        Remote VTEPS for Vxlan1:
+        
+        VTEP            Tunnel Type(s)
+        --------------- --------------
+        10.16.4.1       unicast, flood
+        10.16.4.2       flood         
+        10.16.4.3       flood         
+        10.16.4.5       flood         
+        10.16.4.6       flood         
+        
+        Total number of remote VTEPS:  5
+
+Вывод команды `show bgp evpn route-type ip-prefix ipv4`
+
+         no-osl-dc1-f1-r03k02-lf02#show bgp evpn route-type ip-prefix ipv4
+         BGP routing table information for VRF default
+         Router identifier 10.16.1.4, local AS number 4200131334
+         Route status codes: * - valid, > - active, S - Stale, E - ECMP head, e - ECMP
+                             c - Contributing to ECMP, % - Pending BGP convergence
+         Origin codes: i - IGP, e - EGP, ? - incomplete
+         AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Link Local Nexthop
+         
+                   Network                Next Hop              Metric  LocPref Weight  Path
+          * >Ec    RD: 10.16.1.1:1 ip-prefix 192.168.11.0/24
+                                          10.16.4.1             -       100     0       4200131329 4200131331 i
+          *  ec    RD: 10.16.1.1:1 ip-prefix 192.168.11.0/24
+                                          10.16.4.1             -       100     0       4200131329 4200131331 i
+          * >      RD: 10.16.1.4:1 ip-prefix 192.168.41.0/24
+                                 -                     -       -       0       i
+
+Проверка доступности по IP конечных устройств:
+![](images/client_ping.png)
