@@ -1,4 +1,4 @@
-# VxLAN. EVPN L3
+# VxLAN. Multihoming.
 
 ## Цель
 * Настроить отказоустойчивое подключение клиентов с использованием EVPN Multihoming
