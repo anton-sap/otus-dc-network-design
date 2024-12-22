@@ -47,3 +47,9 @@
 ![](images/HW-7-map.png)
 
 Тут мне попадается офигенная композиция в Яндекс.Музыке [Valhalla Calling](https://music.yandex.ru/album/31716158/track/127207559?utm_source=desktop&utm_medium=copy_link) Ой нимагу
+
+    VXLAN thunders in twilight’s dome,
+    ESI’s banner guides the roaming band.
+    Multihome stands as bonds of home,
+    Valhalla calls—EVPN at hand!
+    А. С. ChatGPT (c.)
