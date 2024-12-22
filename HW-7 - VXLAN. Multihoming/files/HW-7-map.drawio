@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/25.0.2 Chrome/128.0.6613.186 Electron/32.2.5 Safari/537.36" version="25.0.2">
   <diagram name="Page-1" id="7nGPOmVnHEvBqKiO8MUv">
-    <mxGraphModel dx="2537" dy="2645" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="none" math="0" shadow="0">
+    <mxGraphModel dx="1831" dy="2133" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="none" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -508,9 +508,6 @@
         </mxCell>
         <mxCell id="0CNAu34OvX8ApSn_YRaQ-9" value="&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Lo: 10.16.1.8/32&lt;/span&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;VTEP: 10.16.4.8/32&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;labelBorderColor=default;" vertex="1" parent="1">
           <mxGeometry x="3150" y="-105.23000000000002" width="130" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="0CNAu34OvX8ApSn_YRaQ-10" value="AS: 4200131337" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=default;fillColor=default;" vertex="1" parent="1">
-          <mxGeometry x="2800" y="-180.23000000000002" width="110" height="30" as="geometry" />
         </mxCell>
         <mxCell id="0CNAu34OvX8ApSn_YRaQ-11" value="Rack 4" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=default;fillColor=default;" vertex="1" parent="1">
           <mxGeometry x="2450" y="60" width="60" height="30" as="geometry" />
