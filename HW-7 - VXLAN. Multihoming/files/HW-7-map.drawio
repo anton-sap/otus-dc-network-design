@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/25.0.2 Chrome/128.0.6613.186 Electron/32.2.5 Safari/537.36" version="25.0.2">
   <diagram name="Page-1" id="7nGPOmVnHEvBqKiO8MUv">
-    <mxGraphModel dx="5074" dy="3969" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="none" math="0" shadow="0">
+    <mxGraphModel dx="2678" dy="2553" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="none" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -602,6 +602,19 @@
         </mxCell>
         <mxCell id="0CNAu34OvX8ApSn_YRaQ-57" value="AS: 4200131338" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=default;fillColor=default;" parent="1" vertex="1">
           <mxGeometry x="3130" y="-180.23000000000002" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="tiLOVvpboQ1SVHBUVwQk-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0.07;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;curved=1;flowAnimation=1;fillColor=#e51400;strokeColor=#B20000;strokeWidth=2;" edge="1" parent="1" source="eH8izVKV5pcjw1C5jCsK-8" target="0CNAu34OvX8ApSn_YRaQ-17">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2200" y="-360" />
+              <mxPoint x="2875" y="-360" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tiLOVvpboQ1SVHBUVwQk-2" value="ping 192.168.10.4" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontColor=#FF0000;labelBorderColor=default;" vertex="1" connectable="0" parent="tiLOVvpboQ1SVHBUVwQk-1">
+          <mxGeometry x="-0.0386" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
         </mxCell>
       </root>
     </mxGraphModel>
