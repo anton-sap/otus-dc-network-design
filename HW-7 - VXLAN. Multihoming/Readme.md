@@ -123,8 +123,7 @@
 ### Тестирование на отказ
 #### Сценарий 1. Как оказалось, он же "единственный"
 
-Пробую отключить левое плечо у сервера и вижу, что трафик не бежит
-Смотрю в табличку маршрутизации на лифе стойки 3 и вижу маршрут только через одну AS - 4200131337. Вот они бенефиты отдельных AS для лифов!
+Пробую отключить левое плечо у сервера и вижу, что трафик не бежит. Смотрю в табличку маршрутизации на лифе стойки 3 и вижу маршрут только через одну AS - 4200131337. Вот они бенефиты отдельных AS для лифов!
 
     no-osl-dc1-f1-r03k03-lf02#sh bgp evpn route-type auto-discovery
     BGP routing table information for VRF default
@@ -147,6 +146,7 @@
 А проблема заключалась в том, что в Netbox для одного лифа Po1 был настроен в access vlan 10, а для второго - нет!
 После правки в Netbox и заливки нового конфига результат на лифе следующий:
 
+Вывод команды `sh bgp evpn route-type auto-discovery`
 
     no-osl-dc1-f1-r03k03-lf02#sh bgp evpn route-type auto-discovery
     BGP routing table information for VRF default
@@ -174,5 +174,30 @@
      *  ec    RD: 10.16.4.8:1 auto-discovery 0000:5001:000d:0000:0000
                                      10.16.4.8             -       100     0       4200131329 4200131338 i
     
+Вывод команды `show bgp evpn route-type mac-ip`
+
+    no-osl-dc1-f1-r03k03-lf02#show bgp evpn route-type mac-ip 
+    BGP routing table information for VRF default
+    Router identifier 10.16.1.6, local AS number 4200131336
+    Route status codes: * - valid, > - active, S - Stale, E - ECMP head, e - ECMP
+                        c - Contributing to ECMP, % - Pending BGP convergence
+    Origin codes: i - IGP, e - EGP, ? - incomplete
+    AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Link Local Nexthop
+
+    Network                Next Hop              Metric  LocPref Weight  Path
+     * >      RD: 10.16.1.6:10 mac-ip 5001.0008.0000
+                                     -                     -       -       0       i
+     * >Ec    RD: 10.16.1.7:10 mac-ip 5001.000f.0000
+                                     10.16.4.7             -       100     0       4200131329 4200131337 i
+     *  ec    RD: 10.16.1.7:10 mac-ip 5001.000f.0000
+                                     10.16.4.7             -       100     0       4200131329 4200131337 i
+     * >Ec    RD: 10.16.1.8:10 mac-ip 5001.000f.0000
+                                     10.16.4.8             -       100     0       4200131329 4200131338 i
+     *  ec    RD: 10.16.1.8:10 mac-ip 5001.000f.0000
+                                     10.16.4.8             -       100     0       4200131329 4200131338 i
+
+
+
+
 Как проходит трафик для пингования сервера
 ![](images/ping.png)
