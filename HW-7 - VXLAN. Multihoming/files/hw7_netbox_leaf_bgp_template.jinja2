@@ -1,3 +1,5 @@
+{# Начало шаблона #}
+
 no aaa root
 !
 username admin role network-admin secret sha512 $6$rrnahywJrf./cxZU$WLwjSO8L/iXagrGAHvaZfp4zFCmX017V3NR0vfqm9Xj0gg24gyCi/5pHahpF503vWpWMjtyKqTp.Q/YqEfPmT/
@@ -8,18 +10,21 @@ service routing protocols model multi-agent
 !
 hostname {{ device.name }}
 !
+
 {%- set interface_vrf_names = [] %}
 {%- for interface in device.interfaces.all() %}
-    {%- for ip in interface.ip_addresses.all() %}
-        {%- if ip.vrf and ip.vrf.name not in interface_vrf_names %}
-            {%- set _ = interface_vrf_names.append(ip.vrf.name) %}
-        {%- endif %}
-    {%- endfor %}
+  {%- for ip in interface.ip_addresses.all() %}
+    {%- if ip.vrf and ip.vrf.name not in interface_vrf_names %}
+      {%- set _ = interface_vrf_names.append(ip.vrf.name) %}
+    {%- endif %}
+  {%- endfor %}
 {%- endfor %}
+
 {%- for vrf_name in interface_vrf_names %}
 vrf instance {{ vrf_name }}
 !
 {%- endfor %}
+
 {%- block content %}
 management api http-commands
    no shutdown
@@ -42,19 +47,25 @@ ip route vrf {{ vrfs.mgmt }} 0.0.0.0/0 {{ mgmt_default_gw }}
 route-map loopback-map permit 10
    match ip address prefix-list loopback-list
 !
+
 {%- for key, value in stp_mode.items() %}
 spanning-tree mode {{ value }}
 !
 {%- endfor %}
+
 {%- for vlan in device.site.vlans.all() %}
 vlan {{ vlan.vid }}
   name {{ vlan.name }}
 !
 {%- endfor %}
+
 {%- for key, value in vrfs.items() %}
 {%- endfor %}
+
+
+
 {%- for interface in device.interfaces.all() %}
-  {%- if interface.name.startswith('Ethernet') %}
+  {%- if interface.name.startswith('Port-Channel') %}
 interface {{ interface.name }}
     {%- set ip_list = interface.ip_addresses.all() %}
     {%- if ip_list|length > 0 %}
@@ -69,10 +80,64 @@ interface {{ interface.name }}
   switchport
   switchport mode access
   switchport access vlan {{ interface.untagged_vlan.vid }}
+  !
       {%- elif interface.mode == 'tagged' and interface.tagged_vlans.all() %}
   switchport
   switchport mode trunk
-          {%- if interface.untagged_vlan %}
+        {%- if interface.untagged_vlan %}
+  switchport trunk native vlan {{ interface.untagged_vlan.vid }}
+        {%- endif %}
+  switchport trunk allowed vlan {{ interface.tagged_vlans.all()|map(attribute='vid')|join(',') }}
+  !
+      {%- else %}
+  switchport
+  switchport mode access
+  switchport access vlan 1
+      {%- endif %}
+    {%- endif %}
+    {%- if interface.custom_field_data["esi_id"] %}
+  evpn ethernet-segment
+    identifier {{ interface.custom_field_data["esi_id"] }}
+    {%- endif %}
+    {%- if interface.custom_field_data["lacp_sid"] %}
+  lacp system-id {{ interface.custom_field_data["lacp_sid"] }}
+    {%- endif %}
+    {%- if not interface.enabled %}
+  shutdown
+    {%- else %}
+  no shutdown
+    {%- endif %}
+    {%- if interface.description %}
+  description {{ interface.description }}
+    {%- endif %}
+!
+  {%- endif %}
+{%- endfor %}
+
+
+{%- for interface in device.interfaces.all() %}
+  {%- if interface.name.startswith('Ethernet') %}
+interface {{ interface.name }}
+    {%- set ip_list = interface.ip_addresses.all() %}
+    {%- if ip_list|length > 0 %}
+      {%- for ip in ip_list %}
+  mtu 9214
+  no switchport
+  bfd interval 200 min-rx 200 multiplier 3
+  ip address {{ ip.address }}
+      {%- endfor %}
+    {%- else %}
+      {%- if interface.lag %}
+  channel-group {{ interface.lag.name|replace("Port-Channel","") }} mode active
+  lacp timer fast
+      {%- elif interface.mode == 'access' and interface.untagged_vlan %}
+  switchport
+  switchport mode access
+  switchport access vlan {{ interface.untagged_vlan.vid }}
+      {%- elif interface.mode == 'tagged' and interface.tagged_vlans.all() %}
+  switchport
+  switchport mode trunk
+        {%- if interface.untagged_vlan %}
   switchport trunk native vlan {{ interface.untagged_vlan.vid }}
         {%- endif %}
   switchport trunk allowed vlan {{ interface.tagged_vlans.all()|map(attribute='vid')|join(',') }}
@@ -82,18 +147,21 @@ interface {{ interface.name }}
   switchport access vlan 1
       {%- endif %}
     {%- endif %}
-
     {%- if not interface.enabled %}
   shutdown
     {%- else %}
   no shutdown
     {%- endif %}
-
     {%- if interface.description %}
   description {{ interface.description }}
     {%- endif %}
 !
-  {%- elif interface.name.startswith('Loopback') %}
+  {%- endif %}
+{%- endfor %}
+
+
+{%- for interface in device.interfaces.all() %}
+  {%- if interface.name.startswith('Loopback') %}
 interface {{ interface.name }}
     {%- for ip in interface.ip_addresses.all() %}
   ip address {{ ip.address }}
@@ -102,7 +170,12 @@ interface {{ interface.name }}
   description {{ interface.description }}
     {%- endif %}
 !
-  {%- elif interface.name.startswith('Management') %}
+  {%- endif %}
+{%- endfor %}
+
+
+{%- for interface in device.interfaces.all() %}
+  {%- if interface.name.startswith('Management') %}
 interface {{ interface.name }}
     {%- for ip in interface.ip_addresses.all() %}
   ip address {{ ip.address }}
@@ -112,7 +185,12 @@ interface {{ interface.name }}
   description {{ interface.description }}
     {%- endif %}
 !
-  {%- elif interface.name.startswith('Vlan') %}
+  {%- endif %}
+{%- endfor %}
+
+
+{%- for interface in device.interfaces.all() %}
+  {%- if interface.name.startswith('Vlan') %}
 interface {{ interface.name }}
     {%- for ip in interface.ip_addresses.all() %}
   ip address {{ ip.address }}
@@ -124,6 +202,7 @@ interface {{ interface.name }}
 !
   {%- endif %}
 {%- endfor %}
+
 !
 interface Vxlan1
    vxlan source-interface Loopback10
@@ -145,27 +224,29 @@ router bgp {{ local_asn }}
   {%- endfor %}
    redistribute connected route-map loopback-map
    !
-{%- for vlan in device.site.vlans.all() %}
+   {%- for vlan in device.site.vlans.all() %}
    vlan {{ vlan.vid }}
       rd auto
       route-target both {{ vlan.vid }}:{{ 100000 + vlan.vid }}
       redistribute learned
    !
-{%- endfor %}
+   {%- endfor %}
    address-family evpn
       neighbor {{ bgp_peer_groups.spine_peers }} activate
 {%- endfor %}
-   !
+!
 {%- for interface in device.interfaces.all() %}
   {%- if interface.name.startswith('Vlan') and interface.tags.filter(slug='vxlan').exists() %}
    vrf {{ interface.ip_addresses.first().vrf.name }}
       rd {{ device.interfaces.get(name="Loopback0").ip_addresses.first().address.ip }}:{{ interface.ip_addresses.first().vrf.id }}
+
       {%- set all_targets = [] %}
       {%- for target in interface.ip_addresses.first().vrf.import_targets.all() %}
         {%- if target not in all_targets %}
           {%- set _ = all_targets.append(target) %}
         {%- endif %}
       {%- endfor %}
+
       {%- for target in interface.ip_addresses.first().vrf.export_targets.all() %}
         {%- if target not in all_targets %}
           {%- set _ = all_targets.append(target) %}
@@ -180,5 +261,5 @@ router bgp {{ local_asn }}
     !
   {%- endif %}
 {%- endfor %}
-   !
+!
 end
