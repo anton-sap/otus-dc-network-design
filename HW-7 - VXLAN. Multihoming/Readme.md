@@ -63,3 +63,56 @@
 * LACP System-id - идентификатор LACP для коммутаторов с проверкой по Regex `^[0-9A-Fa-f]{4}(.[0-9A-Fa-f]{4}){2}$`
 
 ![](images/netbox_custom_fields.png)
+
+Шаблон для генерации конфигурации для leaf'ов  претерпел значительные изменения и заставил потратить на себя кучу времени. Основные изменения коснулись секций для интерфейсов. Теперь по каждому типу интерфейсов собственный цикл обработки. ниже приведен пример для секции Port-Channel и кастомных полей:
+    
+    {%- for interface in device.interfaces.all() %}
+      {%- if interface.name.startswith('Port-Channel') %}
+    interface {{ interface.name }}
+        {%- set ip_list = interface.ip_addresses.all() %}
+        {%- if ip_list|length > 0 %}
+          {%- for ip in ip_list %}
+      mtu 9214
+      no switchport
+      bfd interval 200 min-rx 200 multiplier 3
+      ip address {{ ip.address }}
+          {%- endfor %}
+        {%- else %}
+          {%- if interface.mode == 'access' and interface.untagged_vlan %}
+      switchport
+      switchport mode access
+      switchport access vlan {{ interface.untagged_vlan.vid }}
+      !
+          {%- elif interface.mode == 'tagged' and interface.tagged_vlans.all() %}
+      switchport
+      switchport mode trunk
+            {%- if interface.untagged_vlan %}
+      switchport trunk native vlan {{ interface.untagged_vlan.vid }}
+            {%- endif %}
+      switchport trunk allowed vlan {{ interface.tagged_vlans.all()|map(attribute='vid')|join(',') }}
+      !
+          {%- else %}
+      switchport
+      switchport mode access
+      switchport access vlan 1
+          {%- endif %}
+        {%- endif %}
+        {%- if interface.custom_field_data["esi_id"] %}                       # Настройка ESI
+      evpn ethernet-segment
+        identifier {{ interface.custom_field_data["esi_id"] }}
+        {%- endif %}
+        {%- if interface.custom_field_data["lacp_sid"] %}                      # Настройка LACP
+      lacp system-id {{ interface.custom_field_data["lacp_sid"] }}
+        {%- endif %}
+        {%- if not interface.enabled %}
+      shutdown
+        {%- else %}
+      no shutdown
+        {%- endif %}
+        {%- if interface.description %}
+      description {{ interface.description }}
+        {%- endif %}
+    !
+      {%- endif %}
+    {%- endfor %}
+
