@@ -1,0 +1,144 @@
+no aaa root
+!
+username admin role network-admin secret sha512 $6$rrnahywJrf./cxZU$WLwjSO8L/iXagrGAHvaZfp4zFCmX017V3NR0vfqm9Xj0gg24gyCi/5pHahpF503vWpWMjtyKqTp.Q/YqEfPmT/
+!
+transceiver qsfp default-mode 4x10G
+!
+service routing protocols model multi-agent
+!
+hostname no-osl-dc1-f1-r02k01-spn01
+!
+vrf instance mgmt
+!
+management api http-commands
+   no shutdown
+   !
+   vrf default
+      no shutdown
+   !
+   vrf mgmt
+      no shutdown
+!
+ip routing
+no ip routing vrf mgmt
+!
+ip route vrf mgmt 0.0.0.0/0 172.16.108.1
+!
+spanning-tree mode mstp
+!
+interface Ethernet1
+  mtu 9214
+  no switchport
+  bfd interval 200 min-rx 200 multiplier 3
+  ip address 10.16.2.100/31
+  no shutdown
+!
+interface Ethernet2
+  mtu 9214
+  no switchport
+  bfd interval 200 min-rx 200 multiplier 3
+  ip address 10.16.2.102/31
+  no shutdown
+!
+interface Ethernet3
+  mtu 9214
+  no switchport
+  bfd interval 200 min-rx 200 multiplier 3
+  ip address 10.16.2.104/31
+  no shutdown
+!
+interface Ethernet4
+  mtu 9214
+  no switchport
+  bfd interval 200 min-rx 200 multiplier 3
+  ip address 10.16.2.106/31
+  no shutdown
+!
+interface Ethernet5
+  mtu 9214
+  no switchport
+  bfd interval 200 min-rx 200 multiplier 3
+  ip address 10.16.2.108/31
+  no shutdown
+!
+interface Ethernet6
+  mtu 9214
+  no switchport
+  bfd interval 200 min-rx 200 multiplier 3
+  ip address 10.16.2.110/31
+  no shutdown
+!
+interface Ethernet7
+  mtu 9214
+  no switchport
+  bfd interval 200 min-rx 200 multiplier 3
+  ip address 10.16.2.112/31
+  no shutdown
+!
+interface Ethernet8
+  mtu 9214
+  no switchport
+  bfd interval 200 min-rx 200 multiplier 3
+  ip address 10.16.2.114/31
+  no shutdown
+!
+interface Ethernet9
+  shutdown
+!
+interface Ethernet10
+  shutdown
+!
+interface Ethernet11
+  shutdown
+!
+interface Ethernet12
+  shutdown
+!
+interface Ethernet13
+  shutdown
+!
+interface Ethernet14
+  shutdown
+!
+interface Ethernet15
+  shutdown
+!
+interface Ethernet16
+  shutdown
+!
+interface Loopback0
+  ip address 10.16.0.2/32
+  description Loopback for RE
+!
+interface Management1
+  ip address 172.16.108.102/24
+  vrf mgmt
+!
+!
+router bgp 4200131329
+   router-id 10.16.0.2
+   maximum-paths 2
+   neighbor LEAF-PEERS peer group
+   neighbor LEAF-PEERS bfd
+   neighbor LEAF-PEERS send-community extended
+   neighbor 10.16.2.101 peer group LEAF-PEERS
+   neighbor 10.16.2.101 remote-as 4200131331
+   neighbor 10.16.2.103 peer group LEAF-PEERS
+   neighbor 10.16.2.103 remote-as 4200131332
+   neighbor 10.16.2.105 peer group LEAF-PEERS
+   neighbor 10.16.2.105 remote-as 4200131333
+   neighbor 10.16.2.107 peer group LEAF-PEERS
+   neighbor 10.16.2.107 remote-as 4200131334
+   neighbor 10.16.2.109 peer group LEAF-PEERS
+   neighbor 10.16.2.109 remote-as 4200131335
+   neighbor 10.16.2.111 peer group LEAF-PEERS
+   neighbor 10.16.2.111 remote-as 4200131336
+   neighbor 10.16.2.113 peer group LEAF-PEERS
+   neighbor 10.16.2.113 remote-as 4200131337
+   neighbor 10.16.2.115 peer group LEAF-PEERS
+   neighbor 10.16.2.115 remote-as 4200131338
+   !
+   address-family evpn
+      neighbor LEAF-PEERS activate
+!
+end
