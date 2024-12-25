@@ -235,3 +235,106 @@
 Что умеет плагин:
 * Config Diff - сравнение конфигурации устройства из Render Config и реальным состоянием с помощью подключения через драйвер
 * Config Managemenet - доставка конфигурации на устройства и приведение его в эталонное состояние
+
+Настройка плагина хорошо описана в [документации](https://miaow2.github.io/netbox-config-diff/).
+
+После установки необходимо настроить платформу на вкладке `Config Diff Plugin -> Compliance -> Platform Settings`
+![](images/netbox_platform_settings.png)
+
+Список поддерживаемых платформ:
+* arista_eos
+* cisco_iosxe
+* cisco_iosxr
+* cisco_nxos
+* juniper_junos
+
+После этого можно запустить скрипт для проверки состояния устройств из вкладки `Customization -> Scripts -> ConfigDiffScript`
+![](images/netbox_config_scripts.png)
+
+Результат работы скрипта:
+![](images/netbo_config_scripts_done.png)
+
+После того, как скрипт отработает, можно провалиться в устройство и посмотреть Config Diff на вкладке `Config Compliance`
+![](images/netbox_device_compliance.png)
+
+И самое интересное! Доставка конфигурации на устройства
+
+На вкладке `Config Diff Plugin -> Config Managemenet -> Configuration Requests` создается новый запрос на изменение конфигурации и следующий порядок действий:
+1. Collect Diffs - сбор информации о разности конфигураций.
+2. Approve - разрешение на применение конфигурации
+3. Schedule - планирование конфигурации к применению
+
+![](images/netbox_new_cr.png)
+
+В джобах можно посмотреть историю:
+![](images/netbox_config_jobs.png)
+
+И там же посмотреть, что получилось
+![](images/netbox_jobs_output.png)
+
+Лог выполнения джоба в JSON
+<details><summary>Лог</summary>
+
+    {
+        "diffs": [
+            {
+                "diff": "--- \tno-osl-dc1-f1-r03k04-lf01\n+++ \tno-osl-dc1-f1-r03k04-lf01\n@@ -1,5 +1,3 @@\n-!\n-!\n no aaa root\n !\n username admin role network-admin secret sha512 $6$rrnahywJrf./cxZU$WLwjSO8L/iXagrGAHvaZfp4zFCmX017V3NR0vfqm9Xj0gg24gyCi/5pHahpF503vWpWMjtyKqTp.Q/YqEfPmT/\n@@ -39,67 +37,111 @@\n       no shutdown\n !\n interface Port-Channel1\n+   switchport\n+   switchport mode access\n    switchport access vlan 10\n    !\n    evpn ethernet-segment\n-      identifier 0000:5001:000d:0000:0000\n+      identifier 0000:5001:000d:0000:0004\n    lacp system-id 5001.000d.0000\n+   no shutdown\n !\n interface Ethernet1\n    mtu 9214\n    no switchport\n    ip address 10.16.2.13/31\n    bfd interval 200 min-rx 200 multiplier 3\n+   no shutdown\n !\n interface Ethernet2\n    mtu 9214\n    no switchport\n    ip address 10.16.2.113/31\n    bfd interval 200 min-rx 200 multiplier 3\n+   no shutdown\n !\n interface Ethernet3\n    channel-group 1 mode active\n    lacp timer fast\n+   no shutdown\n !\n interface Ethernet4\n+   switchport\n    switchport trunk native vlan 10\n    switchport trunk allowed vlan 11\n    switchport mode trunk\n+   no shutdown\n !\n interface Ethernet5\n+   switchport\n+   switchport mode access\n+   switchport access vlan 1\n    shutdown\n !\n interface Ethernet6\n+   switchport\n+   switchport mode access\n+   switchport access vlan 1\n    shutdown\n !\n interface Ethernet7\n+   switchport\n+   switchport mode access\n+   switchport access vlan 1\n    shutdown\n !\n interface Ethernet8\n+   switchport\n+   switchport mode access\n+   switchport access vlan 1\n    shutdown\n !\n interface Ethernet9\n+   switchport\n+   switchport mode access\n+   switchport access vlan 1\n    shutdown\n !\n interface Ethernet10\n+   switchport\n+   switchport mode access\n+   switchport access vlan 1\n    shutdown\n !\n interface Ethernet11\n+   switchport\n+   switchport mode access\n+   switchport access vlan 1\n    shutdown\n !\n interface Ethernet12\n+   switchport\n+   switchport mode access\n+   switchport access vlan 1\n    shutdown\n !\n interface Ethernet13\n+   switchport\n+   switchport mode access\n+   switchport access vlan 1\n    shutdown\n !\n interface Ethernet14\n+   switchport\n+   switchport mode access\n+   switchport access vlan 1\n    shutdown\n !\n interface Ethernet15\n+   switchport\n+   switchport mode access\n+   switchport access vlan 1\n    shutdown\n !\n interface Ethernet16\n+   switchport\n+   switchport mode access\n+   switchport access vlan 1\n    shutdown\n !\n interface Loopback0\n@@ -111,6 +153,8 @@\n interface Management1\n    vrf mgmt\n    ip address 172.16.108.117/24\n+!\n+\n !\n interface Vxlan1\n    vxlan source-interface Loopback10\n@@ -172,4 +216,5 @@\n    address-family evpn\n       neighbor SPINE-PEERS activate\n !\n+!\n end",
+                "error": null,
+                "name": "no-osl-dc1-f1-r03k04-lf01"
+            },
+            {
+                "diff": "--- \tno-osl-dc1-f1-r03k04-lf02\n+++ \tno-osl-dc1-f1-r03k04-lf02\n@@ -1,5 +1,3 @@\n-!\n-!\n no aaa root\n !\n username admin role network-admin secret sha512 $6$rrnahywJrf./cxZU$WLwjSO8L/iXagrGAHvaZfp4zFCmX017V3NR0vfqm9Xj0gg24gyCi/5pHahpF503vWpWMjtyKqTp.Q/YqEfPmT/\n@@ -39,65 +37,110 @@\n       no shutdown\n !\n interface Port-Channel1\n+   switchport\n+   switchport mode access\n    switchport access vlan 10\n    !\n    evpn ethernet-segment\n-      identifier 0000:5001:000d:0000:0000\n+      identifier 0000:5001:000d:0000:0004\n    lacp system-id 5001.000d.0000\n+   no shutdown\n !\n interface Ethernet1\n    mtu 9214\n    no switchport\n    ip address 10.16.2.15/31\n    bfd interval 200 min-rx 200 multiplier 3\n+   no shutdown\n !\n interface Ethernet2\n    mtu 9214\n    no switchport\n    ip address 10.16.2.115/31\n    bfd interval 200 min-rx 200 multiplier 3\n+   no shutdown\n !\n interface Ethernet3\n    channel-group 1 mode active\n    lacp timer fast\n+   no shutdown\n !\n interface Ethernet4\n+   switchport\n+   switchport mode access\n+   switchport access vlan 1\n    shutdown\n !\n interface Ethernet5\n+   switchport\n+   switchport mode access\n+   switchport access vlan 1\n    shutdown\n !\n interface Ethernet6\n+   switchport\n+   switchport mode access\n+   switchport access vlan 1\n    shutdown\n !\n interface Ethernet7\n+   switchport\n+   switchport mode access\n+   switchport access vlan 1\n    shutdown\n !\n interface Ethernet8\n+   switchport\n+   switchport mode access\n+   switchport access vlan 1\n    shutdown\n !\n interface Ethernet9\n+   switchport\n+   switchport mode access\n+   switchport access vlan 1\n    shutdown\n !\n interface Ethernet10\n+   switchport\n+   switchport mode access\n+   switchport access vlan 1\n    shutdown\n !\n interface Ethernet11\n+   switchport\n+   switchport mode access\n+   switchport access vlan 1\n    shutdown\n !\n interface Ethernet12\n+   switchport\n+   switchport mode access\n+   switchport access vlan 1\n    shutdown\n !\n interface Ethernet13\n+   switchport\n+   switchport mode access\n+   switchport access vlan 1\n    shutdown\n !\n interface Ethernet14\n+   switchport\n+   switchport mode access\n+   switchport access vlan 1\n    shutdown\n !\n interface Ethernet15\n+   switchport\n+   switchport mode access\n+   switchport access vlan 1\n    shutdown\n !\n interface Ethernet16\n+   switchport\n+   switchport mode access\n+   switchport access vlan 1\n    shutdown\n !\n interface Loopback0\n@@ -109,6 +152,8 @@\n interface Management1\n    vrf mgmt\n    ip address 172.16.108.118/24\n+!\n+\n !\n interface Vxlan1\n    vxlan source-interface Loopback10\n@@ -170,4 +215,5 @@\n    address-family evpn\n       neighbor SPINE-PEERS activate\n !\n+!\n end",
+                "error": null,
+                "name": "no-osl-dc1-f1-r03k04-lf02"
+            }
+        ],
+        "logs": [
+            [
+                "2024-12-25 09:25:00",
+                "info",
+                "Working with no-osl-dc1-f1-r03k04-lf01, no-osl-dc1-f1-r03k04-lf02"
+            ],
+            [
+                "2024-12-25 09:25:02",
+                "info",
+                "Collecting diff on no-osl-dc1-f1-r03k04-lf01"
+            ],
+            [
+                "2024-12-25 09:25:02",
+                "info",
+                "Collecting diff on no-osl-dc1-f1-r03k04-lf02"
+            ],
+            [
+                "2024-12-25 09:25:02",
+                "info",
+                "Got diff from no-osl-dc1-f1-r03k04-lf01"
+            ],
+            [
+                "2024-12-25 09:25:02",
+                "info",
+                "Got diff from no-osl-dc1-f1-r03k04-lf02"
+            ],
+            [
+                "2024-12-25 09:25:02",
+                "info",
+                "Push config to no-osl-dc1-f1-r03k04-lf01"
+            ],
+            [
+                "2024-12-25 09:25:02",
+                "info",
+                "Push config to no-osl-dc1-f1-r03k04-lf02"
+            ],
+            [
+                "2024-12-25 09:25:04",
+                "info",
+                "Successfully pushed config to no-osl-dc1-f1-r03k04-lf01"
+            ],
+            [
+                "2024-12-25 09:25:05",
+                "info",
+                "Successfully pushed config to no-osl-dc1-f1-r03k04-lf02"
+            ]
+        ]
+}
+
+</details>
