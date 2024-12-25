@@ -217,7 +217,7 @@
 Как проходит трафик для пингования сервера
 ![](images/ping.png)
 
-Вместо скриншотов
+Вместо скриншотов видео на Youtube
 
 [![ESI LAG. Тесты](https://img.youtube.com/vi/seVLZLxzsik/0.jpg)](https://www.youtube.com/watch?v=seVLZLxzsik)
 
