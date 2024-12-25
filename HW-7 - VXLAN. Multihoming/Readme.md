@@ -219,7 +219,7 @@
 
 Вместо скриншотов
 
-![Video](https://www.youtube.com/watch?v=seVLZLxzsik)
+![Video](https://img.youtube.com/vi/seVLZLxzsik/0.jpg)
 
 ## Что-то вместо выводов
 1. Конфигуратор в Netbox работает очень даже сносно :-) Что прям радует.
