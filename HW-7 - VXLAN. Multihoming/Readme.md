@@ -219,7 +219,7 @@
 
 Вместо скриншотов
 
-![Video](https://img.youtube.com/vi/seVLZLxzsik/0.jpg)
+![ESI LAG. Тесты](https://img.youtube.com/vi/seVLZLxzsik/0.jpg)
 
 ## Что-то вместо выводов
 1. Конфигуратор в Netbox работает очень даже сносно :-) Что прям радует.
