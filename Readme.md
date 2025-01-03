@@ -13,4 +13,4 @@
 
 [Часть 7. VxLAN. Multihoming](https://github.com/anton-sap/otus-dc-network-design/tree/master/HW-7%20-%20VXLAN.%20Multihoming)
 
-[Часть 8. VxLAN. Routing]()
+[Часть 8. VxLAN. Routing](https://github.com/anton-sap/otus-dc-network-design/tree/master/HW-8%20-%20VxLAN%20Routing)
