@@ -180,7 +180,7 @@ interface {{ interface.name }}
 interface {{ interface.name }}
     {%- for ip in interface.ip_addresses.all() %}
    vrf {{ interface.ip_addresses.first().vrf.name }}
-   ip address {{ ip.address }}
+   ip address virtual {{ ip.address }}
     {%- endfor %}
     {%- if interface.description %}
    description {{ interface.description }}
@@ -188,7 +188,6 @@ interface {{ interface.name }}
 !
   {%- endif %}
 {%- endfor %}
-
 !
 interface Vxlan1
    vxlan source-interface Loopback10
@@ -231,32 +230,31 @@ router bgp {{ local_asn }}
    address-family evpn
       neighbor {{ bgp_peer_groups.spine_peers }} activate
 {%- endfor %}
-!
-{%- for interface in device.interfaces.all() %}
+   !
+{%- set vrf_map = {} -%}
+{%- for interface in device.interfaces.all() -%}
   {%- if interface.name.startswith('Vlan') and interface.tags.filter(slug='vxlan').exists() %}
-   vrf {{ interface.ip_addresses.first().vrf.name }}
-      rd {{ device.interfaces.get(name="Loopback0").ip_addresses.first().address.ip }}:{{ interface.ip_addresses.first().vrf.id }}
-
-      {%- set all_targets = [] %}
-      {%- for target in interface.ip_addresses.first().vrf.import_targets.all() %}
-        {%- if target not in all_targets %}
-          {%- set _ = all_targets.append(target) %}
-        {%- endif %}
-      {%- endfor %}
-
-      {%- for target in interface.ip_addresses.first().vrf.export_targets.all() %}
-        {%- if target not in all_targets %}
-          {%- set _ = all_targets.append(target) %}
-        {%- endif %}
-      {%- endfor %}
-
-      {%- for target in all_targets %}
-      route-target import evpn {{ target }}
-      route-target export evpn {{ target }}
-      {%- endfor %}
+    {%- set vrf_obj = interface.ip_addresses.first().vrf %}
+    {%- set vlan_num = interface.name.replace("Vlan","")|int %}
+    {%- if vrf_obj %}
+      {%- if vrf_obj.name not in vrf_map %}
+        {%- set _ = vrf_map.update({ vrf_obj.name: {'vrf_id': vrf_obj.id,
+                                                   'vlan_list': [] }}) %}
+      {%- endif -%}
+      {# Добавляем vlan_num в список vlan_list #}
+      {%- set _ = vrf_map[vrf_obj.name]['vlan_list'].append(vlan_num) -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- for vrf_name, data in vrf_map.items() %}
+   vrf {{ vrf_name }}
+      rd {{ device.interfaces.get(name="Loopback0").ip_addresses.first().address.ip }}:{{ data.vrf_id }}
+  {%- for vlan_num in data.vlan_list %}
+      route-target import evpn {{ data.vrf_id }}:{{ 11000 + vlan_num }}
+      route-target export evpn {{ data.vrf_id }}:{{ 11000 + vlan_num }}
+  {%- endfor %}
       redistribute connected
-    !
-  {%- endif %}
+   !
 {%- endfor %}
 !
 end
