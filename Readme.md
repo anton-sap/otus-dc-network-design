@@ -12,3 +12,5 @@
 [Часть 6. VxLAN. EVPN L3](https://github.com/anton-sap/otus-dc-network-design/tree/master/HW-6%20-%20VxLAN%20EVPN%20L3)
 
 [Часть 7. VxLAN. Multihoming](https://github.com/anton-sap/otus-dc-network-design/tree/master/HW-7%20-%20VXLAN.%20Multihoming)
+
+[Часть 8. VxLAN. Routing]()
